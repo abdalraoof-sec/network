@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مدخل إلى الشبكات، مكوناتها، ونموذج TCP/IP — Networks Intro &amp; TCP/IP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="top"></div>
+<input type="checkbox" id="nav" class="nav-toggle"><label for="nav" class="burger" aria-label="التنقل">☰</label><label for="nav" class="scrim"></label><aside class="drawer"><div class="drawer-head"><strong>📚 التنقل بين المحاضرات</strong><label for="nav" class="close">✕</label></div><a class="back" href="index.html">⌂ العودة للفهرس الرئيسي</a><ol><li class="on"><a class="l" href="lecture-1.html"><b>1</b><span>مدخل إلى الشبكات، مكوناتها، ونموذج TCP/IP</span></a><div class="sub"><a href="#s1">① مفهوم الشبكة وأنواعها الأساسية</a><a href="#s2">② المكونات الأساسية للشبكة</a><a href="#s3">③ أجهزة ربط الشبكة</a><a href="#s4">④ نموذج TCP/IP وآلية التغليف (Encapsulation)</a></div></li><li class=""><a class="l" href="lecture-2.html"><b>2</b><span>نموذج OSI، معايير الإيثرنت، وآلية عمل السويتش</span></a></li><li class=""><a class="l" href="lecture-3.html"><b>3</b><span>حلقات الطبقة الثانية، بروتوكول STP، والشبكات الوهمية VLAN</span></a></li><li class=""><a class="l" href="lecture-4.html"><b>4</b><span>الشبكات اللاسلكية (IEEE 802.11)، الفريمات اللاسلكية، وبنية AP/WLC</span></a></li><li class=""><a class="l" href="lecture-5.html"><b>5</b><span>الطبقة الثالثة، بروتوكول IPv4، التقسيم الفرعي (Subnetting)، و NAT</span></a></li><li class=""><a class="l" href="lecture-6.html"><b>6</b><span>العناوين المحجوزة، DHCP، ARP، خوارزميات التوجيه، و ICMP</span></a></li><li class=""><a class="l" href="lecture-7.html"><b>7</b><span>نظام أسماء النطاقات (DNS) وبروتوكول IPv6</span></a></li><li class=""><a class="l" href="lecture-8.html"><b>8</b><span>بروتوكولات الطبقة الرابعة (TCP &amp; UDP)، المنافذ، و Proxy Server</span></a></li></ol></aside><div class="wrap"><header class="hero"><h1>📖 مدخل إلى الشبكات، مكوناتها، ونموذج TCP/IP</h1><p class="sub">Networks Intro & TCP/IP | المحاضرة الأولى — سلسلة مراجعة موحدة</p><div class="src"><p>المصدر: ملف المحاضرة الأولى (CSB _S1.pdf)</p></div><div class="rule"></div></header><h2 class="sec-title">📘 الملخص المكثف</h2><p class="sec-sub">المحاور الأساسية للمحاضرة</p><nav class="chips"><a href="#s1">① مفهوم الشبكة وأنواعها الأساسية</a><a href="#s2">② المكونات الأساسية للشبكة</a><a href="#s3">③ أجهزة ربط الشبكة</a><a href="#s4">④ نموذج TCP/IP وآلية التغليف (Encapsulation)</a></nav><article class="topic" id="s1"><h2><i>①</i>مفهوم الشبكة وأنواعها الأساسية</h2><ul>
+<li><strong>تعريف الشبكة (Network):</strong> جهازا كمبيوتر أو أكثر متصلان معاً لمشاركة الموارد (البيانات، التطبيقات، الطابعات، والإنترنت)، ويتخاطبان بلغة النظام الثنائي (<strong>Binary Code</strong>: <code>0</code> و <code>1</code>).</li>
+<li><strong>الشبكة المحلية (LAN - Local Area Network):</strong> تغطي منطقة جغرافية محدودة (مكتب، قسم، أو مبنى). يُفضل تقسيم شبكات LAN الكبيرة إلى مجموعات عمل أصغر لتسهيل الإدارة ورفع مستوى الأمان.</li>
+<li><strong>مجموعة العمل (Workgroup):</strong> مجموعة أجهزة تعمل في نفس النطاق أو القسم داخل شبكة LAN (مثل قسم المحاسبة أو التسويق) دون ارتباط أمني خاص بينها.</li>
+<li><strong>الشبكة الواسعة (WAN - Wide Area Network):</strong> تغطي منطقة جغرافية واسعة وتربط عدة شبكات محلية معاً باستخدام عناوين <strong>IP</strong> وأجهزة التوجيه (<strong>Routers</strong>)، وأبرز مثال عليها شبكة الإنترنت.</li>
+</ul></article><article class="topic" id="s2"><h2><i>②</i>المكونات الأساسية للشبكة</h2><ul>
+<li><strong>جهاز الحاسب (Host / Workstation / Client):</strong>
+<ul>
+<li><strong>Host:</strong> أي جهاز متصل بالشبكة يمتلك عنوان <strong>IP</strong>.</li>
+<li><strong>Client:</strong> أي جهاز يطلب الخدمة من السيرفر.</li>
+</ul>
+</li>
+<li><strong>الخادم (Server):</strong> حاسب بمواصفات عالية يخدم الأجهزة الأخرى ويدير موارد الشبكة، ويجب تأمينه بالنسخ الاحتياطي وأجهزة بديلة لضمان استمرارية الخدمة. أبرز أنواعه:
+<ul>
+<li><strong>File Server:</strong> حفظ وتوزيع الملفات.</li>
+<li><strong>Mail Server:</strong> إدارة البريد الإلكتروني.</li>
+<li><strong>Print Server:</strong> التحكم بالطابعات المشتركة على الشبكة.</li>
+<li><strong>Web Server:</strong> استضافة مواقع وصفحات الويب وتوزيع محتواها.</li>
+<li><strong>Fax Server:</strong> إرسال واستقبال رسائل الفاكس الإلكترونية.</li>
+<li><strong>Application Server:</strong> إدارة تطبيقات الشبكة.</li>
+<li><strong>Telephony Server:</strong> إدارة مراكز الاتصال وتوجيه المكالمات.</li>
+<li><strong>Proxy Server:</strong> يتولى المهام نيابةً عن الأجهزة الأخرى (خصوصاً الاتصال بالإنترنت).</li>
+</ul>
+</li>
+</ul></article><article class="topic" id="s3"><h2><i>③</i>أجهزة ربط الشبكة</h2><div class="tw"><table>
+<thead>
+<tr>
+<th style="text-align:left">الجهاز</th>
+<th style="text-align:left">الطبقة / العنوان المعتمد</th>
+<th style="text-align:left">الوظيفة والخصائص الأساسية للامتحان</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>كرت الشبكة (NIC)</strong></td>
+<td style="text-align:left">يرتبط بعنوان فيزيائي <strong>MAC Address</strong></td>
+<td style="text-align:left">يربط الحاسب بالشبكة سلكياً أو لاسلكياً بسرعة <code>10 / 100 / 1000 Mbps</code>. في اختبارات اختراق الـ Wi-Fi نحتاج كرتاً خارجياً يدعم <strong>Monitor Mode</strong> وحقن الفريمات (<strong>Packet Injection</strong>).</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>الموزع (Hub)</strong></td>
+<td style="text-align:left">الطبقة الأولى (غير ذكي)</td>
+<td style="text-align:left">يربط الأجهزة ببنية نجمية ويكرر الإشارة لكل المنافذ عدا منفذ المصدر. يشكل <strong>منطقة تصادم واحدة (Single Collision Domain)</strong> ويعتمد على آلية <strong>CSMA/CD</strong>، ويفتقر للسرية ويستهلك عرض الحزمة (<strong>Bandwidth</strong>).</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>الجسر (Bridge)</strong></td>
+<td style="text-align:left">الطبقة الثانية (<strong>MAC Address</strong>)</td>
+<td style="text-align:left">يربط جزأين من الشبكة ويفصل حركة البيانات بينهما لتقسيم الشبكة إلى <strong>مناطق تصادم أصغر</strong>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>المبدل (Switch)</strong></td>
+<td style="text-align:left">الطبقة الثانية (<strong>MAC Address</strong>)</td>
+<td style="text-align:left">جهاز ذكي يوجه الرسالة فقط إلى منفذ الجهاز الهدف بناءً على عنوان <strong>MAC</strong>. كل منفذ فيه يعتبر <strong>منطقة تصادم منفصلة (Separate Collision Domain)</strong> ويدعم الإرسال والاستقبال بنفس الوقت.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>الموجه (Router)</strong></td>
+<td style="text-align:left">الطبقة الثالثة (<strong>IP Address</strong>)</td>
+<td style="text-align:left">يربط الشبكات المختلفة معاً (مثل ربط <strong>LAN</strong> مع <strong>WAN</strong> أو فصل مجموعات العمل إدارياً وأمنياً) ويختار أفضل مسار. يدعم ميزات مراقبة وحماية مثل <strong>Cisco NetFlow</strong> وقوائم التحكم بالوصول (<strong>ACLs</strong>) وشبكات <strong>VPN</strong> وبروتوكول المصادقة <strong>802.1x</strong>.</td>
+</tr>
+</tbody>
+</table></div></article><article class="topic" id="s4"><h2><i>④</i>نموذج TCP/IP وآلية التغليف (Encapsulation)</h2><ul>
+<li><strong>مبادئ عمل الطبقات:</strong>
+<ul>
+<li><strong>في نفس الجهاز:</strong> كل طبقة تقدم خدمات للطبقة الأعلى منها.</li>
+<li><strong>بين جهازين مختلفين:</strong> تتخاطب الطبقات المتناظرة باستخدام نفس البروتوكول.</li>
+</ul>
+</li>
+</ul>
+<div class="tw"><table>
+<thead>
+<tr>
+<th style="text-align:left">طبقة TCP/IP</th>
+<th style="text-align:left">اسم وحدة البيانات (PDU)</th>
+<th style="text-align:left">البروتوكولات العاملة في الطبقة</th>
+<th style="text-align:left">الوظيفة الجوهرية</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Application Layer</strong></td>
+<td style="text-align:left"><strong>Application data</strong></td>
+<td style="text-align:left"><code>HTTP</code>, <code>SMTP</code>, <code>FTP</code></td>
+<td style="text-align:left">واجهة التطبيقات التي يتعامل معها المستخدم (تصفح الويب، البريد، نقل الملفات).</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Transport Layer</strong></td>
+<td style="text-align:left"><strong>Segment</strong></td>
+<td style="text-align:left"><code>TCP</code>, <code>UDP</code></td>
+<td style="text-align:left">ضمان/إدارة تسليم البيانات وتحديد الخدمة عبر أرقام المنافذ (<strong>Ports</strong>، مثل <code>80</code> للويب و<code>21</code> لـ <code>FTP</code>).</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Internet Layer (IP/Network)</strong></td>
+<td style="text-align:left"><strong>Packet</strong></td>
+<td style="text-align:left"><code>IP</code></td>
+<td style="text-align:left">العنونة المنطقية (<strong>IP Address</strong>) وتوجيه الحزم عبر القفزات والعقد (<strong>Nodes / Routers</strong>).</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Link Layer (Physical + Data Link)</strong></td>
+<td style="text-align:left"><strong>Frame</strong> (وفي الفيزيائية <strong>Bit</strong>)</td>
+<td style="text-align:left"><code>Ethernet</code>, <code>Point-to-Point (PPP)</code>, <code>PPPoA</code></td>
+<td style="text-align:left">التغليف الفيزيائي والعنونة الفيزيائية وإرسال البتات عبر وسط الاتصال وكرت الشبكة (<strong>NIC</strong>).</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>التغليف وفك التغليف (Encapsulation &amp; Decapsulation):</strong>
+<ul>
+<li><strong>عند الإرسال (Encapsulation):</strong> تنتقل البيانات من الأعلى للأسفل؛ تضيف كل طبقة ترويسة خاصة بها (<strong>Header</strong>) وتضيف طبقة الربط ترويسة وتذييلاً (<strong>Header &amp; Trailer</strong>) لتشكيل الـ <strong>Frame</strong>.</li>
+<li><strong>عند الاستقبال (Decapsulation):</strong> تنتقل البيانات من الأسفل للأعلى؛ تقرأ كل طبقة ترويستها وتزيلها ثم تمرر الحمولة (<strong>Payload</strong>) للطبقة الأعلى.</li>
+<li><strong>ملاحظة مهمة حول عمل الراوتر في المسار:</strong> الراوتر يفك تغليف طبقة <strong>Link Layer (Frame)</strong> ليقرأ عنوان الهدف في ترويسة <strong>IP Packet</strong> ويوجهها للقفزة التالية، ثم يعيد تغليفها في <strong>Frame</strong> جديد يناسب وسط النقل التالي (مثل <code>Ethernet</code> أو <code>PPPoA</code>)، ولا يصعد لطبقات <code>Transport</code> أو <code>Application</code>.</li>
+</ul>
+</li>
+</ul></article><div class="foot">سلسلة مراجعة موحدة — ملخص المحاضرة الأولى</div></div>
+</body>
+</html>

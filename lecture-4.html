@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الشبكات اللاسلكية (IEEE 802.11)، الفريمات اللاسلكية، وبنية AP/WLC — Wireless 802.11 &amp; WLC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="top"></div>
+<input type="checkbox" id="nav" class="nav-toggle"><label for="nav" class="burger" aria-label="التنقل">☰</label><label for="nav" class="scrim"></label><aside class="drawer"><div class="drawer-head"><strong>📚 التنقل بين المحاضرات</strong><label for="nav" class="close">✕</label></div><a class="back" href="index.html">⌂ العودة للفهرس الرئيسي</a><ol><li class=""><a class="l" href="lecture-1.html"><b>1</b><span>مدخل إلى الشبكات، مكوناتها، ونموذج TCP/IP</span></a></li><li class=""><a class="l" href="lecture-2.html"><b>2</b><span>نموذج OSI، معايير الإيثرنت، وآلية عمل السويتش</span></a></li><li class=""><a class="l" href="lecture-3.html"><b>3</b><span>حلقات الطبقة الثانية، بروتوكول STP، والشبكات الوهمية VLAN</span></a></li><li class="on"><a class="l" href="lecture-4.html"><b>4</b><span>الشبكات اللاسلكية (IEEE 802.11)، الفريمات اللاسلكية، وبنية AP/WLC</span></a><div class="sub"><a href="#s1">① أساسيات الشبكات اللاسلكية والمجالات الترددية (RF)</a><a href="#s2">② أنماط وبنى الشبكات اللاسلكية</a><a href="#s3">③ معايير الشبكات اللاسلكية (IEEE 802.11 Standards)</a><a href="#s4">④ بنية فريم 802.11 وأنواع الفريمات اللاسلكية ورحلة الاتصال</a><a href="#s5">⑤ أنواع الأكسس بوينت وبروتوكول CAPWAP</a></div></li><li class=""><a class="l" href="lecture-5.html"><b>5</b><span>الطبقة الثالثة، بروتوكول IPv4، التقسيم الفرعي (Subnetting)، و NAT</span></a></li><li class=""><a class="l" href="lecture-6.html"><b>6</b><span>العناوين المحجوزة، DHCP، ARP، خوارزميات التوجيه، و ICMP</span></a></li><li class=""><a class="l" href="lecture-7.html"><b>7</b><span>نظام أسماء النطاقات (DNS) وبروتوكول IPv6</span></a></li><li class=""><a class="l" href="lecture-8.html"><b>8</b><span>بروتوكولات الطبقة الرابعة (TCP &amp; UDP)، المنافذ، و Proxy Server</span></a></li></ol></aside><div class="wrap"><header class="hero"><h1>📖 الشبكات اللاسلكية (IEEE 802.11)، الفريمات اللاسلكية، وبنية AP/WLC</h1><p class="sub">Wireless 802.11 & WLC | المحاضرة الرابعة — سلسلة مراجعة موحدة</p><div class="src"><p>المصدر: ملف المحاضرة الرابعة (CSB _S4.pdf)</p></div><div class="rule"></div></header><h2 class="sec-title">📘 الملخص المكثف</h2><p class="sec-sub">المحاور الأساسية للمحاضرة</p><nav class="chips"><a href="#s1">① أساسيات الشبكات اللاسلكية والمجالات الترددية (RF)</a><a href="#s2">② أنماط وبنى الشبكات اللاسلكية</a><a href="#s3">③ معايير الشبكات اللاسلكية (IEEE 802.11 Standards)</a><a href="#s4">④ بنية فريم 802.11 وأنواع الفريمات اللاسلكية ورحلة الاتصال</a><a href="#s5">⑤ أنواع الأكسس بوينت وبروتوكول CAPWAP</a></nav><article class="topic" id="s1"><h2><i>①</i>أساسيات الشبكات اللاسلكية والمجالات الترددية (RF)</h2><ul>
+<li><strong>المفهوم:</strong> شبكات تعتمد الأمواج الراديوية الكهرومغناطيسية (<strong>RF</strong>) عبر هوائيات (<strong>Antennas</strong>) في الطبقة الفيزيائية وفق معيار <strong>IEEE 802.11</strong>.</li>
+<li><strong>الميزات والمساوئ:</strong>
+<ul>
+<li><strong>الميزات:</strong> سرعة التركيب دون تمديد كابلات، تغطية الأماكن الصعبة والعامة (<strong>Hotspots</strong>)، ومشاركة اتصال الإنترنت لعدة مستخدمين.</li>
+<li><strong>المساوئ:</strong> مخاطر أمنية أعلى، تقاسم عرض الحزمة (<strong>Bandwidth</strong>) بين الأجهزة المتصلة، الحاجة لتحديث العتاد عند تغير المعايير، والتأثر بالتداخل الكهرومغناطيسي.</li>
+</ul>
+</li>
+<li><strong>وحدات قياس التردد (Frequency):</strong> الهرتز (<strong>Hz</strong>) هو عدد الهزات في الثانية (<code>kHz = 1,000 Hz</code>، <code>MHz = 1,000,000 Hz</code>، <code>GHz = 1,000,000,000 Hz</code>).</li>
+<li><strong>الحزم الترددية المعتمدة في الشبكات اللاسلكية:</strong></li>
+</ul>
+<div class="tw"><table>
+<thead>
+<tr>
+<th style="text-align:left">الحزمة الترددية</th>
+<th style="text-align:left">النطاق الترددي الدقيق</th>
+<th style="text-align:left">عدد القنوات (Channels)</th>
+<th style="text-align:left">التداخل والقنوات غير المتداخلة</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>2.4 GHz (ISM Band)</strong></td>
+<td style="text-align:left"><code>2.400 – 2.4835 GHz</code></td>
+<td style="text-align:left"><strong>14 قناة</strong></td>
+<td style="text-align:left">القنوات المتتالية تتداخل؛ لتجنب التداخل بين نقاط الوصول المتجاورة نستخدم <strong>القنوات <code>1</code> و <code>6</code> و <code>11</code></strong>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>5 GHz (UNII Band)</strong></td>
+<td style="text-align:left"><code>5.150 – 5.825 GHz</code> (مقسمة لـ 4 مجالات: <code>5.150-5.250</code>، <code>5.250-5.350</code>، <code>5.470-5.725</code>، <code>5.725-5.825 GHz</code>)</td>
+<td style="text-align:left"><strong>24 قناة</strong></td>
+<td style="text-align:left">لا يحدث تداخل بين القنوات المتجاورة؛ يمكن استخدام قناة لأكسس بوينت والقناة التالية لمجاورتها دون تداخل.</td>
+</tr>
+</tbody>
+</table></div></article><article class="topic" id="s2"><h2><i>②</i>أنماط وبنى الشبكات اللاسلكية</h2><ul>
+<li><strong>BSS (Basic Service Set):</strong> مجموعة خدمات توفرها أكسس بوينت (<strong>AP</strong>) واحدة عبر قناة ترددية واحدة. يُعرف عنوان الـ MAC الخاص بالأكسس بوينت باسم <strong>BSSID</strong>، وتسمى عملية اتصال الجهاز بها <strong>Association</strong>، ويُسمى الجهاز المتصل محطة (<strong>STA - Station</strong>).</li>
+<li><strong>DS (Distribution System):</strong> ربط الأكسس بوينت بشبكة سلكية لتعمل كجسر بين اللاسلكي والسلكي؛ وعند تعدد الـ <strong>SSIDs</strong> والـ <strong>VLANs</strong> يجب أن يكون الاتصال بين الـ AP والسويتش من نوع <strong>Trunk (802.1Q)</strong>.</li>
+<li><strong>ESS (Extended Service Set):</strong> استخدام عدة أجهزة AP بنفس اسم الشبكة (<strong>SSID</strong>) لتوسيع التغطية مع تداخل مدروس يسمح للمستخدم بالتنقل دون انقطاع الاتصال (<strong>Roaming - التجوال</strong>).</li>
+<li><strong>Repeater (المكرر):</strong> أكسس بوينت تستقبل الإشارة وتعيد بثها لتوسيع التغطية، ويجب أن تعمل جميع الأجهزة على <strong>نفس القناة الترددية</strong> للأكسس بوينت الأصلية.</li>
+<li><strong>Wireless Bridge (الجسر اللاسلكي):</strong> ربط شبكتين سلكيتين متباعدتين لاسلكياً؛ إما <strong>Point-to-Point</strong> (بهوائيات موجهة بين موقعين) أو <strong>Point-to-Multipoint</strong> (هوائي مركزي متعدد الاتجاهات يتصل بعدة مواقع ذات هوائيات موجهة).</li>
+<li><strong>Mesh Network:</strong> عدة أجهزة AP تتعاون لتغطية منطقة واسعة باستخدام <strong>قناتين تردديتين</strong>: القناة الأولى ثابتة لاتصال المستخدمين، والقناة الثانية للتواصل البيني بين أجهزة الـ AP.</li>
+</ul></article><article class="topic" id="s3"><h2><i>③</i>معايير الشبكات اللاسلكية (IEEE 802.11 Standards)</h2><div class="tw"><table>
+<thead>
+<tr>
+<th style="text-align:left">المعيار</th>
+<th style="text-align:left">الحزمة الترددية</th>
+<th style="text-align:left">أقصى معدل نقل بيانات (Data Rate)</th>
+<th style="text-align:left">التقنية المميزة / ملاحظات الامتحان</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>802.11 (الأصلي - 1997)</strong></td>
+<td style="text-align:left"><code>2.4 GHz ISM</code></td>
+<td style="text-align:left"><code>1 &amp; 2 Mbps</code></td>
+<td style="text-align:left">المعيار الأساسي لشبكات WLAN.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>802.11b</strong></td>
+<td style="text-align:left"><code>2.4 GHz ISM</code></td>
+<td style="text-align:left"><code>5.5 &amp; 11 Mbps</code></td>
+<td style="text-align:left">يستخدم <code>DSSS</code> ومتوافق مع المعيار الأصلي.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>802.11a</strong></td>
+<td style="text-align:left"><code>5 GHz UNII</code></td>
+<td style="text-align:left"><code>6 to 54 Mbps</code></td>
+<td style="text-align:left">يستخدم تقنية <strong>OFDM</strong>؛ غير متوافق مع <code>802.11b</code> لاختلاف التردد.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>802.11g</strong></td>
+<td style="text-align:left"><code>2.4 GHz ISM</code></td>
+<td style="text-align:left"><code>54 Mbps</code></td>
+<td style="text-align:left">متوافق مع <code>802.11b</code> والأجهزة القديمة على تردد <code>2.4 GHz</code>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>802.11i</strong></td>
+<td style="text-align:left">— (معيار أمني)</td>
+<td style="text-align:left">—</td>
+<td style="text-align:left">طوّر حماية اللاسلكي عبر بروتوكول <strong>TKIP</strong> وتشفير <strong>AES</strong>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>802.11n</strong></td>
+<td style="text-align:left"><code>2.4 GHz &amp; 5 GHz</code></td>
+<td style="text-align:left"><code>600 Mbps</code></td>
+<td style="text-align:left">يستخدم الهوائيات المتعددة <strong>MIMO</strong> وتقنية <strong>OFDM</strong>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>802.11ac (Wi-Fi 5 - 2013)</strong></td>
+<td style="text-align:left"><code>5 GHz</code> فقط</td>
+<td style="text-align:left">حوالي <code>7 Gbps</code></td>
+<td style="text-align:left">إنتاجية وسرعة عالية على تردد <code>5 GHz</code>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>802.11ax (Wi-Fi 6 - 2019)</strong></td>
+<td style="text-align:left"><code>2.4 GHz &amp; 5 GHz</code></td>
+<td style="text-align:left">حوالي <code>9.6 Gbps</code></td>
+<td style="text-align:left">كفاءة ومرونة وقابلية توسع عالية في البيئات المزدحمة.</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>تقنيات التعديل الراديوي:</strong>
+<ul>
+<li><strong>DSSS:</strong> طيف منتشر يرسل البيانات عبر مجال ترددي ثابت.</li>
+<li><strong>FHSS:</strong> طيف منتشر يرسل البيانات بالقفز عبر عدة حوامل ترددية فرعية.</li>
+<li><strong>OFDM:</strong> ترميز رقمي يرسل البيانات عبر عدة حوامل ترددية فرعية متعامدة.</li>
+</ul>
+</li>
+<li><strong>ملاحظة أمنية حول SSID:</strong> طوله حتى <strong>32 حرفاً</strong>، وإخفاؤه (<strong>Closed Network / Disable SSID Broadcast</strong>) <strong>لا يوفر حماية حقيقية</strong> لأنه يظهر كنص صريح (<strong>Cleartext</strong>) داخل ترويسة حزم البيانات (مثل طلبات Probe/Association).</li>
+</ul></article><article class="topic" id="s4"><h2><i>④</i>بنية فريم 802.11 وأنواع الفريمات اللاسلكية ورحلة الاتصال</h2><ul>
+<li><strong>حقول فريم 802.11:</strong>
+<ul>
+<li><strong>Frame Control:</strong> يحدد نوع الفريم واتجاهه (من/إلى الشبكة السلكية <code>DS</code>).</li>
+<li><strong>Duration:</strong> يحدد الوقت المتوقع لحجز القناة ويُستخدم لتحسس الحامل افتراضياً (<strong>Virtual Carrier Sense</strong>).</li>
+<li><strong>العناوين الأربعة (Address Fields - MAC):</strong>
+<ol>
+<li><strong>TA (Transmitter Address):</strong> عنوان الجهاز المرسل لاسلكياً حالياً.</li>
+<li><strong>RA (Receiver Address):</strong> عنوان الجهاز المستقبل لاسلكياً حالياً.</li>
+<li><strong>SA (Source Address):</strong> عنوان المنشئ الأصلي للفريم (قد يكون جهازاً في الشبكة السلكية).</li>
+<li><strong>DA (Destination Address):</strong> عنوان الوجهة النهائية للفريم.</li>
+</ol>
+</li>
+<li><strong>Sequence Control:</strong> للترقيم التسلسلي وتجميع الأجزاء المقسمة.</li>
+<li><strong>Frame Body:</strong> حمولة الطبقات العليا (<strong>PDU</strong>).</li>
+<li><strong>FCS:</strong> لكشف الأخطاء أثناء الإرسال.</li>
+</ul>
+</li>
+<li><strong>الأنواع الثلاثة الرئيسية للفريمات اللاسلكية:</strong>
+<ol>
+<li><strong>فريمات الإدارة (Management Frames):</strong> لتأسيس وإدارة وقطع الاتصال، وتشمل:
+<ul>
+<li><strong>Beacon Frame:</strong> ترسله الـ AP دورياً للإعلان عن تواجدها ومعلوماتها (<code>SSID</code>، السرعة، نوع الشبكة <code>Ad Hoc / Infrastructure</code>، نوع التعديل)، ويعتمد عليه <strong>البحث الخامل (Passive Scanning)</strong>.</li>
+<li><strong>Probe Request / Response:</strong> يرسله جهاز المستخدم للبحث الفعال (<strong>Active Scanning</strong>) عن شبكة محددة، وترد الـ AP بحالة دعم المعايير (<strong>Supported</strong>، <strong>Disabled</strong>، أو <strong>Mandatory</strong>).</li>
+<li><strong>Authentication Frame:</strong> يتكون من 4 حقول (<code>Authentication Algorithm</code> 2B، <code>Authentication Transaction</code> 2B ويصبح 1B في الشبكات المفتوحة Open، <code>Status Code</code> 2B، و<code>Challenge Text</code> 3-255B).</li>
+<li><strong>Association / Reassociation Frame:</strong> للانضمام الفعلي للشبكة بعد المصادقة.</li>
+<li><strong>Disassociation vs. Deauthentication:</strong> عند إرسال <strong>Disassociation</strong> يمكن للجهاز إعادة الاتصال مباشرة عبر <strong>Reassociation</strong> دون إعادة المصادقة؛ أما عند إرسال <strong>Deauthentication</strong> فيتوجب على الجهاز إعادة عمليتي <strong>Authentication و Association</strong> من البداية.</li>
+</ul>
+</li>
+<li><strong>فريمات التحكم (Control Frames):</strong> لتنظيم الوصول للوسط وتأكيد التسليم، وأهمها:
+<ul>
+<li><strong>RTS (Request to Send) &amp; CTS (Clear to Send):</strong> لمنع التصادم عبر حجز الوسط قبل إرسال البيانات.</li>
+<li><strong>ACK (Acknowledgment):</strong> لتأكيد وصول كل فريم بيانات بنجاح.</li>
+<li><strong>PS-Poll (Power Save Poll):</strong> لوضع حفظ الطاقة.</li>
+</ul>
+</li>
+<li><strong>فريمات البيانات (Data Frames):</strong> تحمل بيانات الطبقات العليا (<code>Layers 3-7</code>) مثل <code>Simple Data</code> و <code>QoS Data</code> و <code>Null Function</code>.</li>
+</ol>
+</li>
+<li><strong>ترتيب رحلة الفريم للاتصال اللاسلكي بالامتحان:</strong>
+<code>Beacon (Passive) أو Probe Request/Response (Active)</code> <span class="math">←</span> <code>Authentication Request/Response</code> <span class="math">←</span> <code>Association Request/Response</code> <span class="math">←</span> <code>RTS / CTS</code> <span class="math">←</span> <code>Data + ACK</code> <span class="math">←</span> <code>Disassociation / Reassociation</code>.</li>
+</ul></article><article class="topic" id="s5"><h2><i>⑤</i>أنواع الأكسس بوينت وبروتوكول CAPWAP</h2><ul>
+<li><strong>Autonomous AP:</strong> مستقلة؛ تؤدي مهام الوقت الحقيقي (إرسال/استقبال/تشفير) ومهام الإدارة معاً، وتتصل بالسويتش عبر <strong>Trunk</strong>.</li>
+<li><strong>Lightweight AP (LAP):</strong> تؤدي مهام الوقت الحقيقي فقط وتُدار مركزياً بواسطة متحكم <strong>WLC (Wireless LAN Controller)</strong> عبر بروتوكول <strong>CAPWAP (RFC 5415)</strong>:
+<ul>
+<li>يعمل <strong>CAPWAP</strong> فوق بروتوكول <strong>UDP</strong> ويغلف الفريمات اللاسلكية داخل <strong>IP Packets</strong>، ويحمي النفق باستخدام <strong>DTLS</strong>.</li>
+<li>ينشئ قناتين منطقيتين: <strong>CAPWAP Control Messages</strong> (لفريمات الإدارة) و <strong>CAPWAP Data</strong> (لنقل البيانات الفعلية).</li>
+<li><strong>مقارنة بنية توضع المتحكم WLC:</strong>
+<ul>
+<li><strong>البنية المركزية (Centralized):</strong> يتوضع الـ WLC في مركز الشبكة؛ يدعم عدداً كبيراً من الـ APs ويسهل <strong>التجوال (Roaming)</strong>، لكنه قد يبطئ المسار لأن البيانات تذهب للـ WLC ثم تعود.</li>
+<li><strong>البنية المتقاربة (Converged):</strong> يتوضع الـ WLC قريباً من الـ APs في طبقة <strong>Access Layer</strong>؛ يزيد كفاءة وسرعة الاتصال اللاسلكي لكنه يدعم عدداً أقل من الـ APs ويجعل <strong>التجوال (Roaming)</strong> أكثر تعقيداً لتعدد أجهزة الـ WLC.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></article><div class="foot">سلسلة مراجعة موحدة — ملخص المحاضرة الرابعة</div></div>
+</body>
+</html>

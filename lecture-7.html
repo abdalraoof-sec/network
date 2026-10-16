@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>نظام أسماء النطاقات (DNS) وبروتوكول IPv6 — DNS &amp; IPv6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="top"></div>
+<input type="checkbox" id="nav" class="nav-toggle"><label for="nav" class="burger" aria-label="التنقل">☰</label><label for="nav" class="scrim"></label><aside class="drawer"><div class="drawer-head"><strong>📚 التنقل بين المحاضرات</strong><label for="nav" class="close">✕</label></div><a class="back" href="index.html">⌂ العودة للفهرس الرئيسي</a><ol><li class=""><a class="l" href="lecture-1.html"><b>1</b><span>مدخل إلى الشبكات، مكوناتها، ونموذج TCP/IP</span></a></li><li class=""><a class="l" href="lecture-2.html"><b>2</b><span>نموذج OSI، معايير الإيثرنت، وآلية عمل السويتش</span></a></li><li class=""><a class="l" href="lecture-3.html"><b>3</b><span>حلقات الطبقة الثانية، بروتوكول STP، والشبكات الوهمية VLAN</span></a></li><li class=""><a class="l" href="lecture-4.html"><b>4</b><span>الشبكات اللاسلكية (IEEE 802.11)، الفريمات اللاسلكية، وبنية AP/WLC</span></a></li><li class=""><a class="l" href="lecture-5.html"><b>5</b><span>الطبقة الثالثة، بروتوكول IPv4، التقسيم الفرعي (Subnetting)، و NAT</span></a></li><li class=""><a class="l" href="lecture-6.html"><b>6</b><span>العناوين المحجوزة، DHCP، ARP، خوارزميات التوجيه، و ICMP</span></a></li><li class="on"><a class="l" href="lecture-7.html"><b>7</b><span>نظام أسماء النطاقات (DNS) وبروتوكول IPv6</span></a><div class="sub"><a href="#s1">① نظام أسماء النطاقات (DNS - Domain Name System)</a><a href="#s2">② بروتوكول الإصدار السادس (IPv6) ومقارنته الشاملة مع IPv4</a><a href="#s3">③ قواعد اختصار عناوين IPv6 والعناوين المحجوزة</a></div></li><li class=""><a class="l" href="lecture-8.html"><b>8</b><span>بروتوكولات الطبقة الرابعة (TCP &amp; UDP)، المنافذ، و Proxy Server</span></a></li></ol></aside><div class="wrap"><header class="hero"><h1>📖 نظام أسماء النطاقات (DNS) وبروتوكول IPv6</h1><p class="sub">DNS & IPv6 | المحاضرة السابعة — سلسلة مراجعة موحدة</p><div class="src"><p>المصدر: ملف المحاضرة السابعة (CSB _S7.pdf)</p></div><div class="rule"></div></header><h2 class="sec-title">📘 الملخص المكثف</h2><p class="sec-sub">المحاور الأساسية للمحاضرة</p><nav class="chips"><a href="#s1">① نظام أسماء النطاقات (DNS - Domain Name System)</a><a href="#s2">② بروتوكول الإصدار السادس (IPv6) ومقارنته الشاملة مع IPv4</a><a href="#s3">③ قواعد اختصار عناوين IPv6 والعناوين المحجوزة</a></nav><article class="topic" id="s1"><h2><i>①</i>نظام أسماء النطاقات (DNS - Domain Name System)</h2><ul>
+<li><strong>الوظيفة:</strong> قاعدة بيانات هرمية موزعة تترجم أسماء النطاقات (<strong>Domain Names</strong> مثل <code>www.cisco.com</code>) إلى عناوين <strong>IP</strong> المقابلة لها.</li>
+<li><strong>ملف Hosts القديم:</strong> قبل ظهور DNS كانت الترجمة تتم محلياً عبر ملف <code>hosts</code> الموجود في نظام Windows ضمن المسار:
+<code>C:\Windows\System32\drivers\etc\hosts</code></li>
+<li><strong>المستويات الأربعة للبنية الهرمية في DNS:</strong>
+<ol>
+<li><strong>Root (<code>.</code>):</strong> أعلى مستوى في البنية الهرمية ويُرمز له بنقطة.</li>
+<li><strong>Top Level Domains (TLD):</strong> اختصارات من حرفين أو ثلاثة تحدد نوع الموقع أو الدولة (مثل <code>.com</code>، <code>.edu</code>، <code>.gov</code>).</li>
+<li><strong>Second Level Domains:</strong> اسم النطاق الرئيسي وقد يتفرع منه نطاقات فرعية (<strong>Subdomains</strong>).</li>
+<li><strong>Host Names:</strong> أسماء الأجهزة أو الخوادم المحددة داخل الشبكة.</li>
+</ol>
+</li>
+<li><strong>آلية الاستعلام في DNS:</strong> يطلب المستخدم الاسم من سيرفر DNS المحلي <span class="math">←</span> يسأل <strong>Root Server</strong> <span class="math">←</span> يسأل سيرفر <strong>TLD</strong> <span class="math">←</span> يصل إلى السيرفر المسؤول عن النطاق (<strong>Authoritative DNS Server</strong>) الذي يقرأ ملف النطاق ويرد بعنوان الـ IP، وتُحفظ النتيجة مؤقتاً في الكاش (<strong>DNS Cache</strong>) لتسريع الطلبات اللاحقة.</li>
+<li><strong>أنواع سجلات DNS الأساسية:</strong></li>
+</ul>
+<div class="tw"><table>
+<thead>
+<tr>
+<th style="text-align:left">نوع السجل (Record Type)</th>
+<th style="text-align:left">الوظيفة والوصف</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong><code>A</code></strong></td>
+<td style="text-align:left">يربط اسم النطاق بعنوان <strong>IPv4</strong>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>AAAA</code></strong></td>
+<td style="text-align:left">يربط اسم النطاق بعنوان <strong>IPv6</strong>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>MX</code></strong></td>
+<td style="text-align:left">يشير إلى عنوان خادم البريد الإلكتروني (<strong>Mail Server</strong>).</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>NS</code></strong></td>
+<td style="text-align:left">يشير إلى اسم خادم النطاقات (<strong>Name Server</strong>).</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>SRV</code></strong></td>
+<td style="text-align:left">سجلات الخدمة؛ تحوي معلومات عن المنطقة واسم السيرفر المعتمد لخدمة معينة.</td>
+</tr>
+</tbody>
+</table></div></article><article class="topic" id="s2"><h2><i>②</i>بروتوكول الإصدار السادس (IPv6) ومقارنته الشاملة مع IPv4</h2><p>صُمم <strong>IPv6</strong> كحل جذري طويل الأمد لمشكلة استنزاف عناوين IPv4 وتوفير عدد ضخم جداً من العناوين.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th style="text-align:left">وجه المقارنة</th>
+<th style="text-align:left">الإصدار الرابع (IPv4)</th>
+<th style="text-align:left">الإصدار السادس (IPv6)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>طول العنوان وطريقة التمثيل</strong></td>
+<td style="text-align:left"><strong><code>32 bits</code></strong> (نظام عشري منقط)</td>
+<td style="text-align:left"><strong><code>128 bits</code></strong> (نظام ست عشري مقسم لـ 8 مجموعات كل منها <code>16 bits</code> يفصل بينها <code>:</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>أنواع العناوين</strong></td>
+<td style="text-align:left"><code>Unicast</code>, <code>Multicast</code>, <code>Broadcast</code></td>
+<td style="text-align:left"><code>Unicast</code>, <code>Anycast</code>, <code>Multicast</code> (<strong>لا يوجد <code>Broadcast</code></strong> ويُستعاض عنه بـ <code>Multicast</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>التقسيم والبادئة (Prefix)</strong></td>
+<td style="text-align:left">يُشار للبادئة بـ <code>/nn</code></td>
+<td style="text-align:left">يُشار للبادئة بـ <code>/nnn</code> (مثل <code>/64</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>طرق تخصيص العناوين</strong></td>
+<td style="text-align:left"><code>Static</code> أو <code>Dynamic via DHCP</code></td>
+<td style="text-align:left"><code>Static</code>، <code>Static prefix with EUI-64</code>، التخصيص التلقائي بدون حالة <strong><code>SLAAC</code></strong>، و <code>Stateful DHCPv6</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>العناوين الخاصة (Private IP)</strong></td>
+<td style="text-align:left">مجالات <code>RFC 1918</code></td>
+<td style="text-align:left">يدعمها وتسمى <strong><code>Unique-Local Address (fc00::/7)</code></strong> ولا تُوجه للإنترنت</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>عدد العناوين للمنفذ الواحد</strong></td>
+<td style="text-align:left">عنوان واحد فقط لكل <code>Interface</code></td>
+<td style="text-align:left">يمكن تخصيص <strong>أكثر من عنوان</strong> لنفس الـ <code>Interface</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>سجل DNS المستخدم</strong></td>
+<td style="text-align:left">السجل <strong><code>A</code></strong></td>
+<td style="text-align:left">السجل <strong><code>AAAA</code></strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>ترويسة الحزمة (IP Header)</strong></td>
+<td style="text-align:left">حجم متغير (<code>20–60 bytes</code>) بحسب الخيارات</td>
+<td style="text-align:left"><strong>حجم ثابت (<code>40 bytes</code>)</strong> بدون خيارات، ويستخدم <strong>Extension Headers</strong> متسلسلة عبر حقل <strong><code>Next Header</code></strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>بروتوكولات التوجيه</strong></td>
+<td style="text-align:left"><code>RIPv2</code>, <code>OSPFv2</code>, <code>EIGRP</code>, <code>IS-IS</code>, <code>BGP-4</code></td>
+<td style="text-align:left">إصدارات محدثة: <code>RIPng</code>, <code>OSPFv3</code> (<code>OSPFv6</code>), <code>EIGRP for IPv6</code>, <code>MP-BGP</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>بروتوكول الإدارة والتحكم</strong></td>
+<td style="text-align:left"><code>ICMP</code></td>
+<td style="text-align:left"><code>ICMPv6</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>اكتشاف العناوين الفيزيائية</strong></td>
+<td style="text-align:left">يستخدم بروتوكول <strong><code>ARP</code></strong></td>
+<td style="text-align:left">استُبدل ARP ببروتوكول <strong><code>NDP (Neighbor Discovery Protocol)</code></strong> مع <code>ICMPv6</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>الحاجة إلى NAT</strong></td>
+<td style="text-align:left">أساسي للخروج للإنترنت بالعناوين الخاصة</td>
+<td style="text-align:left"><strong>لا توجد حاجة لاستخدام NAT</strong> لوفرة العناوين العامة</td>
+</tr>
+</tbody>
+</table></div></article><article class="topic" id="s3"><h2><i>③</i>قواعد اختصار عناوين IPv6 والعناوين المحجوزة</h2><ul>
+<li><strong>قاعدتا اختصار عنوان IPv6:</strong>
+<ol>
+<li><strong>حذف الأصفار البادئة (Leading Zeros)</strong> من يسار كل مجموعة ست عشرية (مثلاً <code>0056</code> تصبح <code>56</code>، و<code>0000</code> تصبح <code>0</code>).</li>
+<li><strong>استبدال مجموعة أو سلسلة متتالية من مجموعات الأصفار بالرمز <code>::</code></strong>، ويُسمح باستخدام <code>::</code> <strong>مرة واحدة فقط</strong> في العنوان الواحد (مثلاً <code>FE00:0000:0000:0001:0000:0000:0000:0056</code> تختصر إلى <code>FE00:0:0:1::56</code>).</li>
+</ol>
+</li>
+<li><strong>ترويسة IPv6 (المعيار RFC 2460):</strong> طولها ثابت (<code>40 bytes</code>)، وتستخدم حقل <strong>Next Header</strong> للإشارة إلى الترويسة الإضافية التالية (مثل <code>Routing Extension Header</code> ثم <code>Fragmentation Extension Header</code>) أو مباشرة إلى ترويسة الطبقة الرابعة (<code>TCP</code> أو <code>UDP</code>).</li>
+<li><strong>أنواع عناوين IPv6:</strong>
+<ul>
+<li><strong>Unicast:</strong> لمنفذ (<code>Interface</code>) واحد محدد.</li>
+<li><strong>Anycast:</strong> لمجموعة منافذ (عقد)، وتُسلّم الحزمة إلى <strong>أقرب Interface</strong> يحمل هذا العنوان.</li>
+<li><strong>Multicast:</strong> لمجموعة منافذ، وتُسلّم الحزمة لكل Interface منتمٍ للمجموعة (ويقوم مقام الـ Broadcast).</li>
+</ul>
+</li>
+<li><strong>جدول عناوين IPv6 الخاصة والمحجوزة:</strong></li>
+</ul>
+<div class="tw"><table>
+<thead>
+<tr>
+<th style="text-align:left">العنوان (Address)</th>
+<th style="text-align:left">الاستخدام (Usage)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong><code>::1/128</code></strong></td>
+<td style="text-align:left">عنوان الحلقة الراجعة (<code>Loopback address</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>::/128</code></strong></td>
+<td style="text-align:left">عنوان غير محدد (<code>Unspecified address</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>64:ff9b::/96</code></strong></td>
+<td style="text-align:left">للترجمة بين <code>IPv4</code> و <code>IPv6</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>::ffff:0:0/96</code></strong></td>
+<td style="text-align:left">عنوان IPv4 المضمن (<code>IPv4-mapped address</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>100::/64</code></strong></td>
+<td style="text-align:left">كتلة عناوين للتجاهل (<code>Discard-Only Address Block</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>2001::/23</code></strong></td>
+<td style="text-align:left">مخصص لبروتوكولات <code>IETF</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>2001::/32</code></strong></td>
+<td style="text-align:left">خاص ببروتوكول <code>TEREDO</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>2001:2::/48</code></strong></td>
+<td style="text-align:left">للمرجعية والاختبارات (<code>Benchmarking</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>2001:db8::/32</code></strong></td>
+<td style="text-align:left">للتوثيق والأمثلة (<code>Documentation</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>2001:10::/28</code></strong></td>
+<td style="text-align:left">خاص بـ <code>ORCHID</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>2002::/16</code></strong></td>
+<td style="text-align:left">تحويل <code>6to4</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>fc00::/7</code></strong></td>
+<td style="text-align:left">عنوان محلي فريد (<code>Unique-Local</code> - يقابل Private IP)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>fe80::/10</code></strong></td>
+<td style="text-align:left">عنوان محلي للرابط (<code>Link-Scoped Unicast / Link-Local</code>)</td>
+</tr>
+</tbody>
+</table></div></article><div class="foot">سلسلة مراجعة موحدة — ملخص المحاضرة السابعة</div></div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>حلقات الطبقة الثانية، بروتوكول STP، والشبكات الوهمية VLAN — STP &amp; VLAN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="top"></div>
+<input type="checkbox" id="nav" class="nav-toggle"><label for="nav" class="burger" aria-label="التنقل">☰</label><label for="nav" class="scrim"></label><aside class="drawer"><div class="drawer-head"><strong>📚 التنقل بين المحاضرات</strong><label for="nav" class="close">✕</label></div><a class="back" href="index.html">⌂ العودة للفهرس الرئيسي</a><ol><li class=""><a class="l" href="lecture-1.html"><b>1</b><span>مدخل إلى الشبكات، مكوناتها، ونموذج TCP/IP</span></a></li><li class=""><a class="l" href="lecture-2.html"><b>2</b><span>نموذج OSI، معايير الإيثرنت، وآلية عمل السويتش</span></a></li><li class="on"><a class="l" href="lecture-3.html"><b>3</b><span>حلقات الطبقة الثانية، بروتوكول STP، والشبكات الوهمية VLAN</span></a><div class="sub"><a href="#s1">① حلقات الطبقة الثانية (Layer 2 Loops) ومخاطرها</a><a href="#s2">② بروتوكول الشجرة الممتدة (STP - Spanning Tree Protocol)</a><a href="#s3">③ الشبكات المحلية الوهمية (VLAN - Virtual LAN)</a></div></li><li class=""><a class="l" href="lecture-4.html"><b>4</b><span>الشبكات اللاسلكية (IEEE 802.11)، الفريمات اللاسلكية، وبنية AP/WLC</span></a></li><li class=""><a class="l" href="lecture-5.html"><b>5</b><span>الطبقة الثالثة، بروتوكول IPv4، التقسيم الفرعي (Subnetting)، و NAT</span></a></li><li class=""><a class="l" href="lecture-6.html"><b>6</b><span>العناوين المحجوزة، DHCP، ARP، خوارزميات التوجيه، و ICMP</span></a></li><li class=""><a class="l" href="lecture-7.html"><b>7</b><span>نظام أسماء النطاقات (DNS) وبروتوكول IPv6</span></a></li><li class=""><a class="l" href="lecture-8.html"><b>8</b><span>بروتوكولات الطبقة الرابعة (TCP &amp; UDP)، المنافذ، و Proxy Server</span></a></li></ol></aside><div class="wrap"><header class="hero"><h1>📖 حلقات الطبقة الثانية، بروتوكول STP، والشبكات الوهمية VLAN</h1><p class="sub">STP & VLAN | المحاضرة الثالثة — سلسلة مراجعة موحدة</p><div class="src"><p>المصدر: ملف المحاضرة الثالثة (CSB _S3.pdf)</p></div><div class="rule"></div></header><h2 class="sec-title">📘 الملخص المكثف</h2><p class="sec-sub">المحاور الأساسية للمحاضرة</p><nav class="chips"><a href="#s1">① حلقات الطبقة الثانية (Layer 2 Loops) ومخاطرها</a><a href="#s2">② بروتوكول الشجرة الممتدة (STP - Spanning Tree Protocol)</a><a href="#s3">③ الشبكات المحلية الوهمية (VLAN - Virtual LAN)</a></nav><article class="topic" id="s1"><h2><i>①</i>حلقات الطبقة الثانية (Layer 2 Loops) ومخاطرها</h2><p>عند توصيل عدة أجهزة سويتش بمسارات متكررة (حلقية) بدون آلية تحكم، يؤدي إرسال فريم <strong>Broadcast</strong> أو فريم لوجهة غير معروفة إلى:</p>
+<ol>
+<li><strong>عاصفة البث (Broadcast Storm):</strong> دوران الفريم بشكل لا نهائي بين السويتشات مما يستهلك موارد الشبكة ويضعف أداءها.</li>
+<li><strong>فساد جدول عناوين MAC (MAC Table Instability):</strong> تحديث مستمر وخاطئ لموقع عنوان المرسل عبر منافذ متعددة مما يؤدي لتوجيه البيانات للمنفذ الخطأ.</li>
+<li><strong>تكرار الفريمات (Multiple Frame Copies):</strong> وصول نسخ مكررة من نفس الفريم للجهاز الهدف مما يربك الطبقات العليا.</li>
+</ol></article><article class="topic" id="s2"><h2><i>②</i>بروتوكول الشجرة الممتدة (STP - Spanning Tree Protocol)</h2><p>يمنع الحلقات في الطبقة الثانية عن طريق إغلاق منافذ احتياطية محددة (<strong>Blocking</strong>) لإنشاء مسار خالٍ من الحلقات، وإعادة فتحها تلقائياً في حال تعطل المسار الأساسي.</p>
+<ul>
+<li><strong>المصطلحات الأساسية في STP:</strong>
+<ul>
+<li><strong>Bridge ID (BID):</strong> مُعرف للسويتش طوله <strong><code>8 bytes</code></strong>؛ يتكون من <strong><code>2 bytes</code> للأولوية (Priority: من <code>0</code> إلى <code>65535</code>)</strong> + <strong><code>6 bytes</code> لعنوان MAC</strong> الخاص بالسويتش.</li>
+<li><strong>Bridge PDU (BPDU):</strong> رسائل الترحيب والتحكم الخاصة ببروتوكول STP وتُرسل إلى عنوان <strong>Multicast MAC</strong> لتبادل معلومات الـ BID والكلفة.</li>
+<li><strong>Root Switch:</strong> السويتش المرجعي في الشبكة، <strong>جميع منافذه تكون مفتوحة (Designated Ports)</strong> ولا يُغلق فيه أي منفذ، وتكون قيمة <strong>Root Cost</strong> فيه تساوي <strong>صفراً (<code>0</code>)</strong>.</li>
+<li><strong>Port Cost:</strong> كلفة رقمية تُعطى لكل منفذ حسب سرعته (<strong>كلما زادت سرعة المنفذ قلت قيمة الـ Cost</strong>).</li>
+<li><strong>Root Cost:</strong> مجموع كلف المنافذ عبر أقصر مسار للوصول إلى الـ <strong>Root Switch</strong>.</li>
+</ul>
+</li>
+<li><strong>خطوات عمل STP وانتخاب السويتش الجذر (Root Election):</strong>
+<ol>
+<li><strong>انتخاب Root Switch:</strong> يُختار السويتش صاحب <strong>أقل قيمة <code>BID</code></strong>؛ أي صاحب <strong>أقل Priority</strong>، وفي حال تساوي الـ Priority في جميع السويتشات يُختار السويتش صاحب <strong>أقل MAC Address</strong>.</li>
+<li><strong>تحديد Root Ports:</strong> في كل سويتش غير جذري (<strong>Non-Root Switch</strong>)، يُختار المنفذ ذو الكلفة الأقل (<strong>Lowest Root Cost</strong>) للوصول إلى الـ Root Switch ليكون <strong>Root Port</strong> (ويكون في حالة عمل وإرسال).</li>
+<li><strong>تحديد Designated Ports و Blocking Ports:</strong> جميع منافذ الـ Root Switch هي <strong>Designated Ports</strong>، وفي الوصلات المتبقية بين السويتشات يُختار المنفذ ذو الكلفة الأقل ليكون <strong>Designated Port</strong>، بينما يُوضع المنفذ المقابل الأعلى كلفة في حالة <strong>Blocking</strong> لمنع الحلقة.</li>
+</ol>
+</li>
+</ul></article><article class="topic" id="s3"><h2><i>③</i>الشبكات المحلية الوهمية (VLAN - Virtual LAN)</h2><ul>
+<li><strong>المفهوم:</strong> تقسيم منطقي للشبكة داخل الطبقة الثانية (على نفس السويتش أو عبر عدة سويتشات) بحيث تصبح كل <strong>VLAN</strong> عبارة عن <strong>Broadcast Domain مستقل</strong>.</li>
+<li><strong>فوائد استخدام VLAN:</strong>
+<ul>
+<li>تقليل عدد الأجهزة التي تستقبل رسائل الـ Broadcast.</li>
+<li>فصل الأجهزة أمنياً وإدارياً ضمن الطبقة الثانية.</li>
+<li>تقليل تعقيد بروتوكولات الإدارة مثل STP.</li>
+<li>تسهيل اكتشاف الأخطاء وحصر الأعطال ضمن جزء محدد دون التأثير على كامل الشبكة.</li>
+</ul>
+</li>
+<li><strong>الربط بين السويتشات (Trunking &amp; VLAN Tagging):</strong>
+<ul>
+<li><strong>Trunk Link:</strong> خط الربط بين سويتشين القادر على تمرير فريمات تابعة لعدة شبكات <strong>VLANs</strong> مختلفة.</li>
+<li><strong>VLAN Tagging:</strong> قبل إرسال الفريم عبر الـ <strong>Trunk Link</strong>، يضيف السويتش المرسل وسماً (<strong>Tag</strong>) يحمل رقم الـ <strong>VLAN ID</strong>، وعند وصوله للسويتش المستقبل يقرأ الوسم ويزيله ثم يوجه الفريم لمنافذ تلك الـ VLAN فقط.</li>
+<li><strong>بروتوكولات الـ Trunking:</strong>
+<ul>
+<li><strong>IEEE 802.1Q (<code>dot1q</code>):</strong> المعيار القياسي الأشهر، ويضيف حقل الـ Tag في الفريم <strong>بين حقل Source MAC Address وحقل Type/Length</strong>.</li>
+<li><strong>ISL (Inter-Switch Link):</strong> بروتوكول قديم خاص بشركة <strong>Cisco</strong>.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></article><div class="foot">سلسلة مراجعة موحدة — ملخص المحاضرة الثالثة</div></div>
+</body>
+</html>

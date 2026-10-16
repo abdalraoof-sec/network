@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الطبقة الثالثة، بروتوكول IPv4، التقسيم الفرعي (Subnetting)، و NAT — IPv4, Subnetting &amp; NAT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="top"></div>
+<input type="checkbox" id="nav" class="nav-toggle"><label for="nav" class="burger" aria-label="التنقل">☰</label><label for="nav" class="scrim"></label><aside class="drawer"><div class="drawer-head"><strong>📚 التنقل بين المحاضرات</strong><label for="nav" class="close">✕</label></div><a class="back" href="index.html">⌂ العودة للفهرس الرئيسي</a><ol><li class=""><a class="l" href="lecture-1.html"><b>1</b><span>مدخل إلى الشبكات، مكوناتها، ونموذج TCP/IP</span></a></li><li class=""><a class="l" href="lecture-2.html"><b>2</b><span>نموذج OSI، معايير الإيثرنت، وآلية عمل السويتش</span></a></li><li class=""><a class="l" href="lecture-3.html"><b>3</b><span>حلقات الطبقة الثانية، بروتوكول STP، والشبكات الوهمية VLAN</span></a></li><li class=""><a class="l" href="lecture-4.html"><b>4</b><span>الشبكات اللاسلكية (IEEE 802.11)، الفريمات اللاسلكية، وبنية AP/WLC</span></a></li><li class="on"><a class="l" href="lecture-5.html"><b>5</b><span>الطبقة الثالثة، بروتوكول IPv4، التقسيم الفرعي (Subnetting)، و NAT</span></a><div class="sub"><a href="#s1">① مفاهيم التوجيه في الطبقة الثالثة (Layer 3 Forwarding &amp; Routing)</a><a href="#s2">② ترويسة IPv4 وتجزئة الحزم (IPv4 Header &amp; Fragmentation)</a><a href="#s3">③ أصناف عناوين IPv4 وأقنعة الشبكة (Address Classes &amp; Masks)</a><a href="#s4">④ التقسيم الفرعي (Subnetting &amp; CIDR)</a><a href="#s5">⑤ العناوين الخاصة والعامة وترجمة العناوين (Private/Public IP &amp; NAT)</a></div></li><li class=""><a class="l" href="lecture-6.html"><b>6</b><span>العناوين المحجوزة، DHCP، ARP، خوارزميات التوجيه، و ICMP</span></a></li><li class=""><a class="l" href="lecture-7.html"><b>7</b><span>نظام أسماء النطاقات (DNS) وبروتوكول IPv6</span></a></li><li class=""><a class="l" href="lecture-8.html"><b>8</b><span>بروتوكولات الطبقة الرابعة (TCP &amp; UDP)، المنافذ، و Proxy Server</span></a></li></ol></aside><div class="wrap"><header class="hero"><h1>📖 الطبقة الثالثة، بروتوكول IPv4، التقسيم الفرعي (Subnetting)، و NAT</h1><p class="sub">IPv4, Subnetting & NAT | المحاضرة الخامسة — سلسلة مراجعة موحدة</p><div class="src"><p>المصدر: ملف المحاضرة الخامسة (CSB _S5.pdf)</p></div><div class="rule"></div></header><h2 class="sec-title">📘 الملخص المكثف</h2><p class="sec-sub">المحاور الأساسية للمحاضرة</p><nav class="chips"><a href="#s1">① مفاهيم التوجيه في الطبقة الثالثة (Layer 3 Forwarding &amp; Routing)</a><a href="#s2">② ترويسة IPv4 وتجزئة الحزم (IPv4 Header &amp; Fragmentation)</a><a href="#s3">③ أصناف عناوين IPv4 وأقنعة الشبكة (Address Classes &amp; Masks)</a><a href="#s4">④ التقسيم الفرعي (Subnetting &amp; CIDR)</a><a href="#s5">⑤ العناوين الخاصة والعامة وترجمة العناوين (Private/Public IP &amp; NAT)</a></nav><article class="topic" id="s1"><h2><i>①</i>مفاهيم التوجيه في الطبقة الثالثة (Layer 3 Forwarding &amp; Routing)</h2><ul>
+<li>وظيفة الطبقة الثالثة نقل حزم البيانات (<strong>Packets</strong>) عبر أكثر من <strong>Broadcast Domain</strong> بغض النظر عن نوع الوسط الفيزيائي.</li>
+<li><strong>جدول التوجيه (Routing Table / Database):</strong> يتكون من جزأين رئيسيين: <strong>عنوان الوجهة الهدف (Destination)</strong> و<strong>عنوان القفزة التالية (Next-Hop)</strong>.</li>
+<li><strong>المسار الافتراضي (Default Route):</strong> الملاذ الأخير لتوجيه أي حزمة لا يوجد لوجهتها مسار مطابق في جدول التوجيه.</li>
+</ul></article><article class="topic" id="s2"><h2><i>②</i>ترويسة IPv4 وتجزئة الحزم (IPv4 Header &amp; Fragmentation)</h2><ul>
+<li><strong>حجم ترويسة IPv4:</strong> يتراوح بين <strong><code>20 bytes</code> (بدون خيارات Options)</strong> و <strong><code>60 bytes</code> (مع خيارات)</strong>.</li>
+<li><strong>حقول ترويسة IPv4 الأساسية:</strong>
+<ul>
+<li><strong>Version:</strong> إصدار البروتوكول (<code>4</code> في IPv4).</li>
+<li><strong>IHL (Internet Header Length):</strong> طول الترويسة (الطول الأساسي <code>20 bytes</code>).</li>
+<li><strong>DS / Type of Service (ToS):</strong> أولوية البيانات وجودة الخدمة (<strong>QoS</strong>) والتحكم بالازدحام.</li>
+<li><strong>Total Length:</strong> الطول الكلي للحزمة (الترويسة + الحمولة)، وأقل قيمة له هي <strong><code>20 bytes</code></strong>.</li>
+<li><strong>Identification + Flags + Fragment Offset:</strong> حقول مخصصة لتقسيم الحزم (<strong>Fragmentation</strong>) وإعادة تجميعها.</li>
+<li><strong>Time to Live (TTL):</strong> يمنع دوران الحزمة في حلقة لا نهائية؛ ينقصه كل راوتر بمقدار <code>1</code>، وعند وصوله إلى <strong><code>0</code></strong> يستبعد الراوتر الحزمة ويرسل رسالة إعلام للمرسل.</li>
+<li><strong>Protocol:</strong> يحدد بروتوكول الطبقة الرابعة المحمول داخل الحزمة: <strong>القيمة <code>6</code> لبروتوكول <code>TCP</code></strong>، و<strong>القيمة <code>17</code> لبروتوكول <code>UDP</code></strong> (والقيمة <code>1</code> لبروتوكول <code>ICMP</code>).</li>
+<li><strong>Header Checksum:</strong> لفحص سلامة الترويسة، و<strong>يُعاد حسابه عند كل راوتر</strong> بسبب تغير قيمة <code>TTL</code>.</li>
+<li><strong>Source &amp; Destination Address:</strong> عنوانا <code>IP</code> للمرسل والمستقبل (<code>32 bits</code> لكل منهما).</li>
+</ul>
+</li>
+<li><strong>تجزئة الحزم (IPv4 Fragmentation):</strong>
+<ul>
+<li>تحدث عندما يكون حجم <code>IP Packet</code> أكبر من الـ <strong>MTU (Maximum Transmission Unit)</strong> لطبقة الربط (في الإيثرنت الأساسي <strong><code>MTU = 1500 bytes</code></strong>).</li>
+<li>تشترك جميع الأجزاء المقسمة لنفس الحزمة في نفس قيمة <strong>Identification</strong>، ويحمل كل جزء (عدا الأخير) العلم <strong><code>MF = 1</code> (More Fragments)</strong> بينما يحمل الجزء الأخير <strong><code>MF = 0</code></strong>.</li>
+<li>يُحسب حقل <strong>Fragment Offset</strong> بقسمة موضع بداية البيانات (بدون ترويسة الـ 20 بايت) على <strong><code>8</code></strong>؛ فمثلاً في حزمة حجمها <code>2000 bytes</code> (ترويسة <code>20B</code> + بيانات <code>1980B</code>):
+<ul>
+<li><strong>الجزء الأول (<code>1500B</code> = ترويسة <code>20B</code> + بيانات <code>1480B</code>):</strong> <code>Identification = 20</code>، <code>MF = 1</code>، <code>Fragment Offset = 0</code>.</li>
+<li><strong>الجزء الثاني (<code>520B</code> = ترويسة جديدة <code>20B</code> + بيانات متبقية <code>500B</code>):</strong> <code>Identification = 20</code>، <code>MF = 0</code>، <code>Fragment Offset = 1480 / 8 = 185</code>.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></article><article class="topic" id="s3"><h2><i>③</i>أصناف عناوين IPv4 وأقنعة الشبكة (Address Classes &amp; Masks)</h2><p>يتكون عنوان IPv4 من <strong>32 بت</strong> (4 خانات عشرية تفصل بينها نقاط، كل خانة <code>8 bits</code>). في كل شبكة يوجد عنوانان محجوزان لا يُعطيان للأجهزة (لذلك نطرح <code>2</code> من عدد الأجهزة):</p>
+<ol>
+<li><strong>عنوان الشبكة (Network Address):</strong> جميع بتات قسم الأجهزة تساوي <code>0</code>.</li>
+<li><strong>عنوان البث (Broadcast Address):</strong> جميع بتات قسم الأجهزة تساوي <code>1</code> (<code>255</code> بالنظام العشري).</li>
+</ol>
+<div class="tw"><table>
+<thead>
+<tr>
+<th style="text-align:left">الصنف (Class)</th>
+<th style="text-align:left">مجال العناوين (IP Range)</th>
+<th style="text-align:left">الاستخدام (Usage)</th>
+<th style="text-align:left">بتات الشبكة / الأجهزة</th>
+<th style="text-align:left">قناع الشبكة الافتراضي (Mask)</th>
+<th style="text-align:left">عدد الشبكات</th>
+<th style="text-align:left">عدد الأجهزة الفعلي في كل شبكة</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Class A</strong></td>
+<td style="text-align:left"><code>1.0.0.0 – 127.255.255.255</code></td>
+<td style="text-align:left"><code>Unicast</code></td>
+<td style="text-align:left"><code>8 bits</code> شبكة / <code>24 bits</code> أجهزة</td>
+<td style="text-align:left"><code>255.0.0.0</code> أو <code>/8</code></td>
+<td style="text-align:left"><span class="math">2<sup>8</sup> = 256</span></td>
+<td style="text-align:left"><span class="math">2<sup>24</sup> - 2 = 16,777,214</span></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Class B</strong></td>
+<td style="text-align:left"><code>128.0.0.0 – 191.255.255.255</code></td>
+<td style="text-align:left"><code>Unicast</code></td>
+<td style="text-align:left"><code>16 bits</code> شبكة / <code>16 bits</code> أجهزة</td>
+<td style="text-align:left"><code>255.255.0.0</code> أو <code>/16</code></td>
+<td style="text-align:left"><span class="math">2<sup>16</sup> = 65,536</span></td>
+<td style="text-align:left"><span class="math">2<sup>16</sup> - 2 = 65,534</span></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Class C</strong></td>
+<td style="text-align:left"><code>192.0.0.0 – 223.255.255.255</code></td>
+<td style="text-align:left"><code>Unicast</code></td>
+<td style="text-align:left"><code>24 bits</code> شبكة / <code>8 bits</code> أجهزة</td>
+<td style="text-align:left"><code>255.255.255.0</code> أو <code>/24</code></td>
+<td style="text-align:left"><span class="math">2<sup>24</sup> = 16,777,216</span></td>
+<td style="text-align:left"><span class="math">2<sup>8</sup> - 2 = 254</span></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Class D</strong></td>
+<td style="text-align:left"><code>224.0.0.0 – 239.255.255.255</code></td>
+<td style="text-align:left"><code>Multicast</code></td>
+<td style="text-align:left">—</td>
+<td style="text-align:left">—</td>
+<td style="text-align:left">—</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Class E</strong></td>
+<td style="text-align:left"><code>240.0.0.0 – 255.255.255.255</code></td>
+<td style="text-align:left"><code>Reserved</code> (محجوز)</td>
+<td style="text-align:left">—</td>
+<td style="text-align:left">—</td>
+<td style="text-align:left">—</td>
+<td style="text-align:left">—</td>
+</tr>
+</tbody>
+</table></div></article><article class="topic" id="s4"><h2><i>④</i>التقسيم الفرعي (Subnetting &amp; CIDR)</h2><ul>
+<li><strong>CIDR (Classless Inter-Domain Routing):</strong> تخصيص العناوين بأقنعة مرنة (مثل <code>/27</code>) بدلاً من حجز صنف كامل لمنع هدر العناوين.</li>
+<li>عند تطبيق <strong>Subnetting</strong> ينقسم عنوان IP إلى <strong>3 أجزاء</strong>: <strong>Network Part</strong> (ثابت من IANA) + <strong>Subnet ID</strong> (يعدله مدير الشبكة، وتكون بتاته <code>1</code> في القناع) + <strong>Host Part</strong> (للأجهزة، وتكون بتاته <code>0</code> في القناع).</li>
+<li><strong>القاعدتان الأساسيتان للـ Subnetting:</strong>
+<ol>
+<li>الأجهزة ضمن نفس الـ <strong>Subnet</strong> تأخذ عناوين من نفس مجال تلك الشبكة الفرعية وتتواصل مباشرة.</li>
+<li>التواصل بين شبكتين فرعيتين مختلفتين (<strong>Inter-subnet</strong>) <strong>يجب أن يمر عبر جهاز طبقة ثالثة (Router)</strong>.</li>
+</ol>
+</li>
+</ul></article><article class="topic" id="s5"><h2><i>⑤</i>العناوين الخاصة والعامة وترجمة العناوين (Private/Public IP &amp; NAT)</h2><ul>
+<li><strong>مجالات العناوين الخاصة (Private IP - المعيار RFC 1918):</strong> تُستخدم مجاناً داخل الشبكات المحلية فقط ولا يمكن توجيهها عبر الإنترنت:
+<ul>
+<li><code>10.0.0.0/8</code></li>
+<li><code>172.16.0.0/12</code></li>
+<li><code>192.168.0.0/16</code></li>
+</ul>
+</li>
+<li><strong>تقنية NAT (Network Address Translation):</strong> تعمل على الراوتر (بوابة الإنترنت) لتمكين الأجهزة ذات العناوين الخاصة (<strong>Private IP</strong>) من الاتصال بالإنترنت عبر استبدال عنوانها الخاص بعنوان عام (<strong>Public IP</strong>) مسجل في جدول <strong>NAT Table</strong> عند الخروج، وإعادة ترجمته للعنوان الخاص عند استلام الرد.</li>
+</ul></article><div class="foot">سلسلة مراجعة موحدة — ملخص المحاضرة الخامسة</div></div>
+</body>
+</html>

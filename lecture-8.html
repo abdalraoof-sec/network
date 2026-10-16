@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>بروتوكولات الطبقة الرابعة (TCP &amp;amp; UDP)، المنافذ، و Proxy Server — TCP, UDP &amp; Ports</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="top"></div>
+<input type="checkbox" id="nav" class="nav-toggle"><label for="nav" class="burger" aria-label="التنقل">☰</label><label for="nav" class="scrim"></label><aside class="drawer"><div class="drawer-head"><strong>📚 التنقل بين المحاضرات</strong><label for="nav" class="close">✕</label></div><a class="back" href="index.html">⌂ العودة للفهرس الرئيسي</a><ol><li class=""><a class="l" href="lecture-1.html"><b>1</b><span>مدخل إلى الشبكات، مكوناتها، ونموذج TCP/IP</span></a></li><li class=""><a class="l" href="lecture-2.html"><b>2</b><span>نموذج OSI، معايير الإيثرنت، وآلية عمل السويتش</span></a></li><li class=""><a class="l" href="lecture-3.html"><b>3</b><span>حلقات الطبقة الثانية، بروتوكول STP، والشبكات الوهمية VLAN</span></a></li><li class=""><a class="l" href="lecture-4.html"><b>4</b><span>الشبكات اللاسلكية (IEEE 802.11)، الفريمات اللاسلكية، وبنية AP/WLC</span></a></li><li class=""><a class="l" href="lecture-5.html"><b>5</b><span>الطبقة الثالثة، بروتوكول IPv4، التقسيم الفرعي (Subnetting)، و NAT</span></a></li><li class=""><a class="l" href="lecture-6.html"><b>6</b><span>العناوين المحجوزة، DHCP، ARP، خوارزميات التوجيه، و ICMP</span></a></li><li class=""><a class="l" href="lecture-7.html"><b>7</b><span>نظام أسماء النطاقات (DNS) وبروتوكول IPv6</span></a></li><li class="on"><a class="l" href="lecture-8.html"><b>8</b><span>بروتوكولات الطبقة الرابعة (TCP &amp; UDP)، المنافذ، و Proxy Server</span></a><div class="sub"><a href="#s1">① مقارنة بروتوكولي الطبقة الرابعة: TCP مقابل UDP</a><a href="#s2">② ترويسة TCP وآليات العمل (Handshake, Error Recovery, Flow Control)</a><a href="#s3">③ ترويسة UDP</a><a href="#s4">④ مفهوم المقبس (Socket) وتعدد الإرسال (Multiplexing) وأرقام المنافذ</a><a href="#s5">⑤ الخادم الوكيل (Proxy Server)</a></div></li></ol></aside><div class="wrap"><header class="hero"><h1>📖 بروتوكولات الطبقة الرابعة (TCP &amp; UDP)، المنافذ، و Proxy Server</h1><p class="sub">TCP, UDP & Ports | المحاضرة الثامنة — سلسلة مراجعة موحدة</p><div class="src"><p>المصدر: ملف المحاضرة الثامنة (CSB _S8.pdf)</p></div><div class="rule"></div></header><h2 class="sec-title">📘 الملخص المكثف</h2><p class="sec-sub">المحاور الأساسية للمحاضرة</p><nav class="chips"><a href="#s1">① مقارنة بروتوكولي الطبقة الرابعة: TCP مقابل UDP</a><a href="#s2">② ترويسة TCP وآليات العمل (Handshake, Error Recovery, Flow Control)</a><a href="#s3">③ ترويسة UDP</a><a href="#s4">④ مفهوم المقبس (Socket) وتعدد الإرسال (Multiplexing) وأرقام المنافذ</a><a href="#s5">⑤ الخادم الوكيل (Proxy Server)</a></nav><article class="topic" id="s1"><h2><i>①</i>مقارنة بروتوكولي الطبقة الرابعة: TCP مقابل UDP</h2><div class="tw"><table>
+<thead>
+<tr>
+<th style="text-align:left">وجه المقارنة</th>
+<th style="text-align:left">بروتوكول TCP (Transmission Control Protocol)</th>
+<th style="text-align:left">بروتوكول UDP (User Datagram Protocol)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>نمط الاتصال</strong></td>
+<td style="text-align:left">موجه بالاتصال (<strong>Connection-Oriented</strong>)</td>
+<td style="text-align:left">غير موجه بالاتصال (<strong>Connectionless</strong>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>تأسيس وإنهاء الاتصال</strong></td>
+<td style="text-align:left">يؤسس الاتصال عبر <strong>المصافحة الثلاثية (3-Way Handshake)</strong> وينهي الاتصال عبر أعلام <strong>FIN</strong></td>
+<td style="text-align:left">يرسل البيانات فوراً دون تأسيس أو إنهاء اتصال</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>الموثوقية وكشف الأخطاء</strong></td>
+<td style="text-align:left"><strong>موثوق جداً:</strong> يرقم الحزم، يؤكد الاستلام (<code>ACK</code>)، يرتب الحزم ويعيد إرسال المفقود</td>
+<td style="text-align:left"><strong>غير موثوق:</strong> لا يؤكد الوصول ولا يعيد إرسال الحزم المفقودة</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>التحكم بالتدفق والسرعة</strong></td>
+<td style="text-align:left">يدعم التحكم بالتدفق (<strong>Flow Control / Windowing</strong>)، لكنه يسبب حملاً زائداً وتأخيراً</td>
+<td style="text-align:left">خفيف وسريع جداً ولا يسبب تأخيراً</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>أبرز الاستخدامات</strong></td>
+<td style="text-align:left">التطبيقات الحساسة لفقدان البيانات (تصفح الويب، البريد، نقل الملفات)</td>
+<td style="text-align:left">التطبيقات المتسامحة مع الفقدان والحساسة للتأخير (البث المرئي، الصوت <code>VoIP</code>، <code>DNS</code>)</td>
+</tr>
+</tbody>
+</table></div></article><article class="topic" id="s2"><h2><i>②</i>ترويسة TCP وآليات العمل (Handshake, Error Recovery, Flow Control)</h2><ul>
+<li><strong>حقول ترويسة TCP الأساسية:</strong>
+<ul>
+<li><strong>Source &amp; Destination Port:</strong> أرقام منافذ المرسل والمستقبل لتحديد التطبيق.</li>
+<li><strong>Sequence Number (<code>32 bits</code>):</strong> لترقيم وتتبع أجزاء البيانات المرسلة وإعادة ترتيبها عند المستقبل.</li>
+<li><strong>Acknowledgment Number (<code>32 bits</code>):</strong> يحمل <strong>الرقم التسلسلي للبيانات التالية المتوقع استلامها</strong> (مثلاً إرسال <code>ACK = 400</code> يعني استلام البيانات حتى <code>399</code> بنجاح وانتظار البايت رقم <code>400</code>).</li>
+<li><strong>Control Flags (<code>9 bits</code>):</strong> أهم الأعلام الستة:
+<ul>
+<li><strong><code>SYN</code>:</strong> لبدء الاتصال ومزامنة الأرقام التسلسلية (يُضبط في أول حزمة من كل جهاز).</li>
+<li><strong><code>ACK</code>:</strong> لتأكيد وصول البيانات (قيمته <code>1</code> تعني أن الاتصال قائم).</li>
+<li><strong><code>FIN</code>:</strong> لإنهاء الاتصال بشكل طبيعي بعد انتهاء إرسال البيانات.</li>
+<li><strong><code>RST</code>:</strong> لقطع الاتصال بشكل فوري وإجباري.</li>
+<li><strong><code>PSH</code>:</strong> لإجبار المستقبل على تمرير البيانات فوراً للتطبيق دون انتظار امتلاء الـ Buffer.</li>
+<li><strong><code>URG</code>:</strong> يشير لوجود بيانات مستعجلة يحدد موقعها حقل <strong>Urgent Pointer (<code>16 bits</code>)</strong>.</li>
+</ul>
+</li>
+<li><strong>Window (<code>16 bits</code>):</strong> للتحكم بتدفق البيانات (<strong>Flow Control</strong>)؛ يحدد حجم البيانات التي يستطيع المستقبل استيعابها في الـ Buffer قبل إرسال <code>ACK</code>، وأقصى قيمة له هي <strong><code>65,535 bytes</code></strong> (ولاستخدام حجم أكبر يُستخدم حقل <code>Options</code>).</li>
+<li><strong>Checksum:</strong> لفحص سلامة الترويسة والبيانات.</li>
+</ul>
+</li>
+<li><strong>المصافحة الثلاثية لتأسيس اتصال TCP (Three-Way Handshake):</strong>
+<ol>
+<li><strong>الخطوة الأولى (<code>SYN</code>):</strong> يرسل العميل حزمة فيها <code>SYN = 1</code> مع رقم تسلسلي ابتدائي عشوائي <code>Seq = X</code>.</li>
+<li><strong>الخطوة الثانية (<code>SYN-ACK</code>):</strong> يرد السيرفر بحزمة فيها <code>SYN = 1, ACK = 1</code> برقم تسلسلي خاص به <code>Seq = Y</code> ورقم تأكيد <code>Ack = X + 1</code>.</li>
+<li><strong>الخطوة الثالثة (<code>ACK</code>):</strong> يرد العميل بحزمة تأكيد <code>ACK = 1</code> تحمل الرقم <code>Ack = Y + 1</code>، فيبدأ تبادل البيانات.</li>
+</ol>
+</li>
+<li><strong>إنهاء الاتصال في TCP:</strong> يتم عبر تبادل حزم تحمل العلم <strong><code>FIN</code></strong> وتأكيدها بـ <strong><code>ACK</code></strong> من الطرفين.</li>
+</ul></article><article class="topic" id="s3"><h2><i>③</i>ترويسة UDP</h2><p>تتكون ترويسة UDP البسيطة من <strong>4 حقول فقط</strong>:</p>
+<ol>
+<li><strong>Source Port:</strong> رقم منفذ المرسل.</li>
+<li><strong>Destination Port:</strong> رقم منفذ المستقبل.</li>
+<li><strong>Length:</strong> طول الـ <code>UDP Segment</code>.</li>
+<li><strong>Checksum:</strong> لاكتشاف الأخطاء.</li>
+</ol></article><article class="topic" id="s4"><h2><i>④</i>مفهوم المقبس (Socket) وتعدد الإرسال (Multiplexing) وأرقام المنافذ</h2><ul>
+<li><strong>المقبس (Socket):</strong> يتكون من <strong>3 عناصر</strong>: <strong>(عنوان IP + رقم المنفذ Port + البروتوكول المستخدم TCP/UDP)</strong>.</li>
+<li><strong>مبدأ Multiplexing:</strong> يسمح بتشغيل عدة تطبيقات على نفس الجهاز ونفس الاتصال والتمييز بينها عبر الـ Socket.</li>
+<li><strong>اختيار المنافذ:</strong> السيرفر ينصت على منفذ قياسي محجوز (<strong>أقل من <code>1024</code></strong>)، بينما يختار جهاز المستخدم منفذاً عشوائياً كـ <strong>Source Port أكبر من <code>1024</code></strong>.</li>
+<li><strong>جدول المنافذ القياسية (Ports) للبروتوكولات في TCP و UDP (مهم جداً للامتحان):</strong></li>
+</ul>
+<div class="tw"><table>
+<thead>
+<tr>
+<th style="text-align:left">اسم التطبيق / البروتوكول</th>
+<th style="text-align:left">رقم المنفذ (Port)</th>
+<th style="text-align:left">البروتوكول (<code>TCP</code> / <code>UDP</code>)</th>
+<th style="text-align:left">الوظيفة والملاحظات</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>FTP</strong></td>
+<td style="text-align:left"><strong><code>21</code></strong></td>
+<td style="text-align:left"><code>TCP</code></td>
+<td style="text-align:left">نقل الملفات عبر الشبكة.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>SSH (Secure Shell)</strong></td>
+<td style="text-align:left"><strong><code>22</code></strong></td>
+<td style="text-align:left"><code>TCP</code></td>
+<td style="text-align:left">إدارة الأجهزة عن بُعد عبر <strong>قناة مشفرة آمنة</strong>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Telnet</strong></td>
+<td style="text-align:left"><strong><code>23</code></strong></td>
+<td style="text-align:left"><code>TCP</code></td>
+<td style="text-align:left">إدارة الأجهزة عن بُعد عبر نص صريح (<strong>غير آمن</strong>).</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>SMTP</strong></td>
+<td style="text-align:left"><strong><code>25</code></strong></td>
+<td style="text-align:left"><code>TCP</code></td>
+<td style="text-align:left"><strong>إرسال</strong> رسائل البريد الإلكتروني (بينما للاستلام من السيرفر نستخدم <code>POP3</code> أو <code>IMAP</code>).</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>DNS</strong></td>
+<td style="text-align:left"><strong><code>53</code></strong></td>
+<td style="text-align:left"><code>UDP</code> (ومذكور في جدول TCP/UDP)</td>
+<td style="text-align:left">ترجمة أسماء النطاقات إلى عناوين IP.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>DHCP</strong></td>
+<td style="text-align:left"><strong><code>67 / 68</code></strong></td>
+<td style="text-align:left"><code>UDP</code></td>
+<td style="text-align:left">تخصيص عناوين IP تلقائياً (<code>67</code> للسيرفر، <code>68</code> للعميل).</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>HTTP</strong></td>
+<td style="text-align:left"><strong><code>80</code></strong></td>
+<td style="text-align:left"><code>TCP</code></td>
+<td style="text-align:left">تصفح الويب غير المشفر.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>NTP (Network Time Protocol)</strong></td>
+<td style="text-align:left"><strong><code>123</code></strong></td>
+<td style="text-align:left"><code>UDP</code></td>
+<td style="text-align:left">مزامنة الوقت عبر الشبكة.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>IMAP</strong></td>
+<td style="text-align:left"><strong><code>143</code></strong></td>
+<td style="text-align:left"><code>TCP</code></td>
+<td style="text-align:left">استلام وإدارة البريد الإلكتروني من السيرفر.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>SNMP</strong></td>
+<td style="text-align:left"><strong><code>161 / 162</code></strong></td>
+<td style="text-align:left"><code>UDP</code></td>
+<td style="text-align:left">إدارة ومراقبة أجهزة الشبكة.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>BGP</strong></td>
+<td style="text-align:left"><strong><code>179</code></strong></td>
+<td style="text-align:left"><code>TCP</code></td>
+<td style="text-align:left">تبادل معلومات التوجيه الخارجي عبر الإنترنت.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>HTTPS</strong></td>
+<td style="text-align:left"><strong><code>443</code></strong></td>
+<td style="text-align:left"><code>TCP</code></td>
+<td style="text-align:left">تصفح الويب المشفر باستخدام بروتوكولي <strong>TLS / SSL</strong>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>IKEv1 / IKEv2</strong></td>
+<td style="text-align:left"><strong><code>500</code></strong></td>
+<td style="text-align:left"><code>UDP</code></td>
+<td style="text-align:left">تبادل المفاتيح في الشبكات الافتراضية الخاصة (VPN).</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Syslog</strong></td>
+<td style="text-align:left"><strong><code>514</code></strong></td>
+<td style="text-align:left"><code>UDP</code></td>
+<td style="text-align:left">إرسال سجلات الأحداث والأنظمة.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>DHCPv6</strong></td>
+<td style="text-align:left"><strong><code>546 / 547</code></strong></td>
+<td style="text-align:left"><code>UDP</code></td>
+<td style="text-align:left">تخصيص عناوين IPv6 تلقائياً.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>RADIUS</strong></td>
+<td style="text-align:left"><strong><code>1812 / 1813</code></strong></td>
+<td style="text-align:left"><code>UDP</code></td>
+<td style="text-align:left">خدمات المصادقة والتحكم بالوصول المركزي.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>IKEv1 / IKEv2 (NAT-T)</strong></td>
+<td style="text-align:left"><strong><code>4500</code></strong></td>
+<td style="text-align:left"><code>UDP</code></td>
+<td style="text-align:left">عبور حزم IKE عبر أجهزة NAT.</td>
+</tr>
+</tbody>
+</table></div></article><article class="topic" id="s5"><h2><i>⑤</i>الخادم الوكيل (Proxy Server)</h2><ul>
+<li>يعمل في <strong>الطبقة السابعة (Application Layer)</strong> كوسيط في منتصف خط الاتصال بين المستخدم والإنترنت، حيث يطلب صفحات الويب نيابةً عن المستخدم ويخفي عنوان الـ <strong>IP</strong> الحقيقي للمستخدم عن الموقع الهدف.</li>
+<li><strong>الفوائد الأربعة لاستخدام Proxy Server:</strong>
+<ol>
+<li><strong>التحكم في استخدام الإنترنت:</strong> مراقبة وتقييد تصفح الموظفين أو الأطفال وحجب المواقع غير المرغوبة أثناء العمل.</li>
+<li><strong>حماية الخصوصية:</strong> إخفاء وتغيير عنوان <strong>IP</strong> الخاص بصاحب الطلب الأصلي.</li>
+<li><strong>تخطي الحجب:</strong> الوصول للمحتوى المحجوب من مزود الخدمة عبر طلب الصفحات بعنوان IP خاص بالبروكسي.</li>
+<li><strong>تحسين السرعة وتقليل استهلاك الشبكة:</strong> التخزين المؤقت (<strong>Caching</strong>) لنسخ من المواقع الشائعة التي يطلبها الموظفون بكثرة.</li>
+</ol>
+</li>
+</ul></article><div class="foot">سلسلة مراجعة موحدة — ملخص المحاضرة الثامنة</div></div>
+</body>
+</html>

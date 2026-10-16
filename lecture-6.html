@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>العناوين المحجوزة، DHCP، ARP، خوارزميات التوجيه، و ICMP — DHCP, ARP, Routing &amp; ICMP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="top"></div>
+<input type="checkbox" id="nav" class="nav-toggle"><label for="nav" class="burger" aria-label="التنقل">☰</label><label for="nav" class="scrim"></label><aside class="drawer"><div class="drawer-head"><strong>📚 التنقل بين المحاضرات</strong><label for="nav" class="close">✕</label></div><a class="back" href="index.html">⌂ العودة للفهرس الرئيسي</a><ol><li class=""><a class="l" href="lecture-1.html"><b>1</b><span>مدخل إلى الشبكات، مكوناتها، ونموذج TCP/IP</span></a></li><li class=""><a class="l" href="lecture-2.html"><b>2</b><span>نموذج OSI، معايير الإيثرنت، وآلية عمل السويتش</span></a></li><li class=""><a class="l" href="lecture-3.html"><b>3</b><span>حلقات الطبقة الثانية، بروتوكول STP، والشبكات الوهمية VLAN</span></a></li><li class=""><a class="l" href="lecture-4.html"><b>4</b><span>الشبكات اللاسلكية (IEEE 802.11)، الفريمات اللاسلكية، وبنية AP/WLC</span></a></li><li class=""><a class="l" href="lecture-5.html"><b>5</b><span>الطبقة الثالثة، بروتوكول IPv4، التقسيم الفرعي (Subnetting)، و NAT</span></a></li><li class="on"><a class="l" href="lecture-6.html"><b>6</b><span>العناوين المحجوزة، DHCP، ARP، خوارزميات التوجيه، و ICMP</span></a><div class="sub"><a href="#s1">① عناوين IPv4 الخاصة والمحجوزة (Special and Reserved IPv4 Addresses)</a><a href="#s2">② طرق تخصيص عناوين IP وبروتوكول DHCP</a><a href="#s3">③ بروتوكول ARP والتوجيه بين الشبكات الفرعية (Inter-subnet Routing)</a><a href="#s4">④ بروتوكولات وخوارزميات التوجيه (IP Routing Protocols)</a><a href="#s5">⑤ بروتوكول رسائل التحكم في الإنترنت (ICMP)</a></div></li><li class=""><a class="l" href="lecture-7.html"><b>7</b><span>نظام أسماء النطاقات (DNS) وبروتوكول IPv6</span></a></li><li class=""><a class="l" href="lecture-8.html"><b>8</b><span>بروتوكولات الطبقة الرابعة (TCP &amp; UDP)، المنافذ، و Proxy Server</span></a></li></ol></aside><div class="wrap"><header class="hero"><h1>📖 العناوين المحجوزة، DHCP، ARP، خوارزميات التوجيه، و ICMP</h1><p class="sub">DHCP, ARP, Routing & ICMP | المحاضرة السادسة — سلسلة مراجعة موحدة</p><div class="src"><p>المصدر: ملف المحاضرة السادسة (CSB _S6.pdf)</p></div><div class="rule"></div></header><h2 class="sec-title">📘 الملخص المكثف</h2><p class="sec-sub">المحاور الأساسية للمحاضرة</p><nav class="chips"><a href="#s1">① عناوين IPv4 الخاصة والمحجوزة (Special and Reserved IPv4 Addresses)</a><a href="#s2">② طرق تخصيص عناوين IP وبروتوكول DHCP</a><a href="#s3">③ بروتوكول ARP والتوجيه بين الشبكات الفرعية (Inter-subnet Routing)</a><a href="#s4">④ بروتوكولات وخوارزميات التوجيه (IP Routing Protocols)</a><a href="#s5">⑤ بروتوكول رسائل التحكم في الإنترنت (ICMP)</a></nav><article class="topic" id="s1"><h2><i>①</i>عناوين IPv4 الخاصة والمحجوزة (Special and Reserved IPv4 Addresses)</h2><div class="tw"><table>
+<thead>
+<tr>
+<th style="text-align:left">مجال العنوان (Address Range)</th>
+<th style="text-align:left">الاستخدام (Use)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>0.0.0.0/8</code></td>
+<td style="text-align:left">هذا الجهاز على هذه الشبكة (<code>This host on this network</code> - يُستخدم كعنوان مصدر في DHCP Discovery)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>10.0.0.0/8</code></td>
+<td style="text-align:left">استخدام خاص (<code>Private use</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>100.64.0.0/10</code></td>
+<td style="text-align:left">مساحة عناوين مشتركة (<code>Shared address space</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>127.0.0.0/8</code></td>
+<td style="text-align:left">عنوان الحلقة الراجعة المحلي (<code>Loopback</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>169.254.0.0/16</code></td>
+<td style="text-align:left">عنوان محلي للرابط (<code>Link local</code> - عند غياب DHCP)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>172.16.0.0/12</code></td>
+<td style="text-align:left">استخدام خاص (<code>Private use</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>192.0.0.0/24</code></td>
+<td style="text-align:left">مخصص لبروتوكولات IETF (<code>IETF protocol assignments</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>192.0.0.0/29</code></td>
+<td style="text-align:left">تقنية <code>DS-Lite</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>192.0.2.0/24</code> و <code>198.51.100.0/24</code> و <code>203.0.113.0/24</code></td>
+<td style="text-align:left">للتوثيق والأمثلة (<code>Documentation TEST-NET-1 / 2 / 3</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>192.88.99.0/24</code></td>
+<td style="text-align:left">الترحيل <code>6to4 Relay Anycast</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>192.168.0.0/16</code></td>
+<td style="text-align:left">استخدام خاص (<code>Private use</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>198.18.0.0/15</code></td>
+<td style="text-align:left">اختبارات الأداء القياسية (<code>Benchmarking</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>240.0.0.0/4</code></td>
+<td style="text-align:left">محجوز (<code>Reserved</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>255.255.255.255/32</code></td>
+<td style="text-align:left">البث المحدود (<code>Limited broadcast</code>)</td>
+</tr>
+</tbody>
+</table></div></article><article class="topic" id="s2"><h2><i>②</i>طرق تخصيص عناوين IP وبروتوكول DHCP</h2><ul>
+<li><strong>التخصيص الثابت (Static):</strong> إدخال الـ IP والقناع يدوياً؛ لتعيين عنوان لمنفذ راوتر Cisco نستخدم:<pre><code class="language-text">interface FastEthernet 0/0
+ip address 10.0.0.2 255.255.255.0
+</code></pre>
+</li>
+<li><strong>التخصيص الديناميكي عبر DHCP (المعيار RFC 2131):</strong>
+<ul>
+<li>يعمل بنمط <strong>Client-Server</strong> فوق بروتوكول <strong>UDP</strong> عبر <strong>المنفذ <code>67</code> للسيرفر</strong> و<strong>المنفذ <code>68</code> للمستخدم</strong>.</li>
+<li>يزود الجهاز من مجمع العناوين (<strong>Pool</strong>) بـ 5 إعدادات: <strong>IP Address</strong>، <strong>Network Mask</strong>، <strong>Default Gateway</strong>، <strong>DNS Server Address</strong>، و <strong>Domain Name</strong>.</li>
+<li><strong>المراحل الأربعة الأساسية لتخصيص العنوان (DORA) وباقي رسائل DHCP:</strong>
+<ol>
+<li><strong>DHCPDISCOVERY:</strong> يرسلها العميل كـ <strong>Broadcast (<code>255.255.255.255</code>)</strong> ومن عنوان مصدر <strong><code>0.0.0.0</code></strong> للبحث عن سيرفر DHCP.</li>
+<li><strong>DHCPOFFER:</strong> يرد بها السيرفر متضمنةً العنوان المقترح (<strong>YIADDR</strong>)، قناع الشبكة، وعنوان السيرفر (<strong>SIADDR / Server ID</strong>).</li>
+<li><strong>DHCPREQUEST:</strong> يرسلها العميل كـ <strong>Broadcast (وليس Unicast)</strong> لتأكيد اختيار عرض سيرفر محدد (<code>SIADDR</code>) ولإعلام بقية سيرفرات DHCP بأن عروضها لم تُختر.</li>
+<li><strong>DHCPACK:</strong> يرسلها السيرفر المختار لتأكيد منح العنوان والإعدادات.</li>
+</ol>
+<ul>
+<li><strong>رسائل إضافية مهمة:</strong> <strong>DHCPNACK</strong> (من السيرفر إذا لم يعد العنوان المقترح متاحاً)، <strong>DHCPDECLINE</strong> (من العميل للسيرفر إذا اكتشف أن العنوان مستخدم)، <strong>DHCPRELEASE</strong> (من العميل لتحرير العنوان عند إنهاء الاتصال)، <strong>DHCPINFORM</strong> (من العميل لطلب إعدادات إضافية بعد حصوله على IP).</li>
+</ul>
+</li>
+<li><strong>DHCP Relay / Helper:</strong> إذا كان سيرفر DHCP في شبكة فرعية أخرى، يُضبط الراوتر كـ <strong>DHCP Relay</strong> ليلتقط رسائل البث (<code>DHCPDISCOVERY</code> و <code>DHCPREQUEST</code>) ويحولها للسيرفر البعيد ويعيد الرد للعميل.</li>
+</ul>
+</li>
+</ul></article><article class="topic" id="s3"><h2><i>③</i>بروتوكول ARP والتوجيه بين الشبكات الفرعية (Inter-subnet Routing)</h2><ul>
+<li><strong>بروتوكول ARP (Address Resolution Protocol):</strong> يُستخدم لمعرفة عنوان <strong>MAC</strong> المقابل لعنوان <strong>IP</strong> معروف ضمن نفس الشبكة الفرعية:
+<ul>
+<li><strong>ARP Request:</strong> يُرسل كـ <strong>Broadcast</strong> في الطبقة الثانية (يتضمن <code>IP &amp; MAC</code> المرسل + <code>IP</code> الهدف فقط).</li>
+<li><strong>ARP Reply:</strong> يرد به الجهاز الهدف كـ <strong>Unicast</strong> (يتضمن <code>IP &amp; MAC</code> الهدف)، ويُحفظ في جدول <strong>ARP Table (ARP Cache)</strong>.</li>
+</ul>
+</li>
+<li><strong>قواعد التوجيه بين الشبكات الفرعية (Inter-subnet Routing):</strong>
+<ul>
+<li>إذا كان الهدف في <strong>نفس الـ Subnet</strong>: يطلب المرسل <code>MAC</code> الهدف عبر <code>ARP</code> ويرسل الحزمة مباشرة.</li>
+<li>إذا كان الهدف في <strong>Subnet مختلفة</strong>: يرسل الجهاز الحزمة إلى الـ <strong>Default Gateway</strong> (يطلب <code>MAC</code> منفذ الراوتر عبر <code>ARP</code>)، ثم يوجهها الراوتر بناءً على جدول التوجيه (<strong>Directly Connected</strong> أو <strong>Next-Hop</strong> أو المسار الافتراضي <strong><code>0.0.0.0/0</code></strong>). Notice أن عناوين الـ <strong>Source/Destination IP</strong> تبقى ثابتة على طول المسار (إلا في حال وجود NAT)، بينما تتغير عناوين الـ <strong>MAC</strong> في كل قفزة.</li>
+</ul>
+</li>
+</ul></article><article class="topic" id="s4"><h2><i>④</i>بروتوكولات وخوارزميات التوجيه (IP Routing Protocols)</h2><ul>
+<li><strong>مصادر بناء جدول التوجيه:</strong> الشبكات المتصلة مباشرة (<strong>Directly Connected</strong>)، المسارات الثابتة اليدوية (<strong>Static Routes</strong>)، والمسارات الديناميكية (<strong>Dynamic Routes</strong>).</li>
+<li><strong>التصنيف الأول (حسب نطاق العمل والأنظمة المستقلة AS - Autonomous System):</strong>
+<ul>
+<li><strong>بروتوكولات داخلية (IGPs - Interior Gateway Protocols):</strong> تعمل داخل حدود الشركة أو النظام المستقل الواحد (<strong>AS</strong>)، ومنها: <code>RIPv2</code>، <code>OSPF</code>، <code>EIGRP</code>، <code>IS-IS</code>.</li>
+<li><strong>بروتوكولات خارجية (EGPs - Exterior Gateway Protocols):</strong> تعمل بين مزودات الخدمة أو الأنظمة المستقلة المختلفة (لكل منها رقم <strong>ASN</strong>)، وأشهرها <strong><code>BGP</code> (<code>BGP-4</code>)</strong>.</li>
+</ul>
+</li>
+<li><strong>التصنيف الثاني (حسب الخوارزمية المعتمدة في IGPs):</strong></li>
+</ul>
+<div class="tw"><table>
+<thead>
+<tr>
+<th style="text-align:left">الخوارزمية</th>
+<th style="text-align:left">البروتوكول الأشهر</th>
+<th style="text-align:left">مبدأ العمل والمعيار (Metric)</th>
+<th style="text-align:left">المزايا والعيوب الجوهرية للامتحان</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Distance Vector (DV)</strong></td>
+<td style="text-align:left"><code>RIPv2</code></td>
+<td style="text-align:left">يتبادل جدول التوجيه كاملاً بشكل دوري مع الجيران فقط، ويعتمد <strong>عدد القفزات (Hop Count)</strong> ككلفة.</td>
+<td style="text-align:left"><strong>عيوبه:</strong> لا يراعي عرض الحزمة (<code>Bandwidth</code>)، لا يملك رؤية كاملة للشبكة، يستهلك عرض الحزمة بالتحديثات الكاملة الدورية، ومعرض لحلقات التوجيه وبطء التقارب.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Advanced Distance Vector (Hybrid)</strong></td>
+<td style="text-align:left"><code>EIGRP</code></td>
+<td style="text-align:left">يكتشف الجيران برسائل ترحيب، يرسل الجدول كاملاً لأول مرة فقط ثم يرسل <strong>تحديثات جزئية عند التغيير فقط</strong>.</td>
+<td style="text-align:left">يعتمد على <strong>عرض الحزمة (Bandwidth) والتأخير (Delay)</strong> بدل عدد القفزات، سريع التقارب، ومحصن ضد الحلقات.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Link-State</strong></td>
+<td style="text-align:left"><code>OSPF</code></td>
+<td style="text-align:left">يرسل كل راوتر إعلانات حالة الوصلة (<strong>LSA</strong>) عبر <strong>LSA Flooding</strong> لبناء قاعدة بيانات موحدة (<strong>LSDB</strong>) لكامل الشبكة، ثم يحسب أقصر مسار بخوارزمية <strong>SPF</strong>.</td>
+<td style="text-align:left">يملك كل راوتر <strong>تصوراً كاملاً لبنية الشبكة</strong>، يعتمد الكلفة (<strong>Cost</strong>) بناءً على عرض الحزمة، ولا يرسل تحديثات إلا عند حصول تغيير في الوصلات.</td>
+</tr>
+</tbody>
+</table></div></article><article class="topic" id="s5"><h2><i>⑤</i>بروتوكول رسائل التحكم في الإنترنت (ICMP)</h2><ul>
+<li>يُغلف مباشرة داخل <strong>IP Payload</strong>، وتكون قيمة حقل <strong>Protocol</strong> في ترويسة IPv4 تساوي <strong><code>1</code></strong>.</li>
+<li><strong>جدول أنواع وأكواد رسائل ICMP الأساسية (مهم جداً للامتحان):</strong></li>
+</ul>
+<div class="tw"><table>
+<thead>
+<tr>
+<th style="text-align:left">النوع (Type)</th>
+<th style="text-align:left">الكود (Code)</th>
+<th style="text-align:left">الوصف والاستخدام (Description)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong><code>0</code> – Echo Reply</strong></td>
+<td style="text-align:left"><code>0</code></td>
+<td style="text-align:left">رد لتأكيد إمكانية الوصول في أداة <strong>Ping</strong>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>3</code> – Destination Unreachable</strong></td>
+<td style="text-align:left"><code>0</code></td>
+<td style="text-align:left">الشبكة غير قابلة للوصول (<code>Network unreachable</code> - لا يوجد مسار في الراوتر).</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>3</code> – Destination Unreachable</strong></td>
+<td style="text-align:left"><code>1</code></td>
+<td style="text-align:left">الجهاز الهدف غير قابل للوصول (<code>Host unreachable</code>).</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>3</code> – Destination Unreachable</strong></td>
+<td style="text-align:left"><code>2</code></td>
+<td style="text-align:left">البروتوكول غير قابل للوصول (<code>Protocol unreachable</code>).</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>3</code> – Destination Unreachable</strong></td>
+<td style="text-align:left"><code>3</code></td>
+<td style="text-align:left">المنفذ غير قابل للوصول (<code>Port unreachable</code>).</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>3</code> – Destination Unreachable</strong></td>
+<td style="text-align:left"><code>4</code></td>
+<td style="text-align:left">التجزئة مطلوبة وعلم عدم التجزئة مضبوط (<code>Fragmentation required, and DF flag set</code>).</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>8</code> – Echo Request</strong></td>
+<td style="text-align:left"><code>0</code></td>
+<td style="text-align:left">طلب فحص الاتصال المرسل بواسطة أداة <strong>Ping</strong>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>11</code> – Time Exceeded</strong></td>
+<td style="text-align:left"><code>0</code></td>
+<td style="text-align:left">انتهاء قيمة <code>TTL</code> أثناء النقل (<code>TTL Exceed in transit</code>).</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>11</code> – Time Exceeded</strong></td>
+<td style="text-align:left"><code>1</code></td>
+<td style="text-align:left">انتهاء وقت إعادة تجميع الأجزاء المقسمة (<code>Fragment reassembly time exceeded</code>).</td>
+</tr>
+</tbody>
+</table></div></article><div class="foot">سلسلة مراجعة موحدة — ملخص المحاضرة السادسة</div></div>
+</body>
+</html>

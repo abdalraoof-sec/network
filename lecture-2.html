@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>نموذج OSI، معايير الإيثرنت، وآلية عمل السويتش — OSI, Ethernet &amp; Switching</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="top"></div>
+<input type="checkbox" id="nav" class="nav-toggle"><label for="nav" class="burger" aria-label="التنقل">☰</label><label for="nav" class="scrim"></label><aside class="drawer"><div class="drawer-head"><strong>📚 التنقل بين المحاضرات</strong><label for="nav" class="close">✕</label></div><a class="back" href="index.html">⌂ العودة للفهرس الرئيسي</a><ol><li class=""><a class="l" href="lecture-1.html"><b>1</b><span>مدخل إلى الشبكات، مكوناتها، ونموذج TCP/IP</span></a></li><li class="on"><a class="l" href="lecture-2.html"><b>2</b><span>نموذج OSI، معايير الإيثرنت، وآلية عمل السويتش</span></a><div class="sub"><a href="#s1">① نموذج الطبقات السبع (OSI Model) ومقارنته مع TCP/IP</a><a href="#s2">② شبكات الإيثرنت (Ethernet LAN - IEEE 802.3)</a><a href="#s3">③ أنماط الوصول للوسط (Half Duplex vs. Full Duplex)</a><a href="#s4">④ بنية فريم الإيثرنت (Ethernet Frame) وعناوين MAC</a><a href="#s5">⑤ آلية عمل السويتش (LAN Switch Operation)</a></div></li><li class=""><a class="l" href="lecture-3.html"><b>3</b><span>حلقات الطبقة الثانية، بروتوكول STP، والشبكات الوهمية VLAN</span></a></li><li class=""><a class="l" href="lecture-4.html"><b>4</b><span>الشبكات اللاسلكية (IEEE 802.11)، الفريمات اللاسلكية، وبنية AP/WLC</span></a></li><li class=""><a class="l" href="lecture-5.html"><b>5</b><span>الطبقة الثالثة، بروتوكول IPv4، التقسيم الفرعي (Subnetting)، و NAT</span></a></li><li class=""><a class="l" href="lecture-6.html"><b>6</b><span>العناوين المحجوزة، DHCP، ARP، خوارزميات التوجيه، و ICMP</span></a></li><li class=""><a class="l" href="lecture-7.html"><b>7</b><span>نظام أسماء النطاقات (DNS) وبروتوكول IPv6</span></a></li><li class=""><a class="l" href="lecture-8.html"><b>8</b><span>بروتوكولات الطبقة الرابعة (TCP &amp; UDP)، المنافذ، و Proxy Server</span></a></li></ol></aside><div class="wrap"><header class="hero"><h1>📖 نموذج OSI، معايير الإيثرنت، وآلية عمل السويتش</h1><p class="sub">OSI, Ethernet & Switching | المحاضرة الثانية — سلسلة مراجعة موحدة</p><div class="src"><p>المصدر: ملف المحاضرة الثانية (CSB _ S2.pdf)</p></div><div class="rule"></div></header><h2 class="sec-title">📘 الملخص المكثف</h2><p class="sec-sub">المحاور الأساسية للمحاضرة</p><nav class="chips"><a href="#s1">① نموذج الطبقات السبع (OSI Model) ومقارنته مع TCP/IP</a><a href="#s2">② شبكات الإيثرنت (Ethernet LAN - IEEE 802.3)</a><a href="#s3">③ أنماط الوصول للوسط (Half Duplex vs. Full Duplex)</a><a href="#s4">④ بنية فريم الإيثرنت (Ethernet Frame) وعناوين MAC</a><a href="#s5">⑤ آلية عمل السويتش (LAN Switch Operation)</a></nav><article class="topic" id="s1"><h2><i>①</i>نموذج الطبقات السبع (OSI Model) ومقارنته مع TCP/IP</h2><p>الهدف من نموذج <strong>OSI (Open System Interconnection)</strong> هو توحيد المعايير لضمان التوافق وإمكانية الاتصال بين الأنظمة والأجهزة المختلفة (علماً أن الأجهزة عملياً تعتمد نموذج <strong>TCP/IP</strong>).</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th style="text-align:left">رقم واسم طبقة OSI</th>
+<th style="text-align:left">ما يقابلها في TCP/IP</th>
+<th style="text-align:left">البروتوكولات والأمثلة</th>
+<th style="text-align:left">الأجهزة العاملة فيها</th>
+<th style="text-align:left">الوظيفة الأساسية</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>7. Application</strong></td>
+<td style="text-align:left"><strong>Application</strong></td>
+<td style="text-align:left"><code>FTP</code>, <code>HTTP</code>, <code>SMTP</code></td>
+<td style="text-align:left"><code>Host</code>, <code>Servers</code></td>
+<td style="text-align:left">التطبيقات التي يتفاعل معها المستخدم مباشرة.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>6. Presentation</strong></td>
+<td style="text-align:left"><strong>Application</strong></td>
+<td style="text-align:left">—</td>
+<td style="text-align:left"><code>Host</code>, <code>Servers</code></td>
+<td style="text-align:left">تصنيف البيانات وتنسيقها بحسب نوعها وتقديم خدمات لطبقة التطبيقات.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>5. Session</strong></td>
+<td style="text-align:left"><strong>Application</strong></td>
+<td style="text-align:left">—</td>
+<td style="text-align:left"><code>Host</code>, <code>Servers</code></td>
+<td style="text-align:left">إنشاء وإدارة جلسة الاتصال وتقديم خدمات لطبقة العرض.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>4. Transport</strong></td>
+<td style="text-align:left"><strong>Transport</strong></td>
+<td style="text-align:left"><code>TCP</code>, <code>UDP</code></td>
+<td style="text-align:left"><code>Stateful Firewalls</code></td>
+<td style="text-align:left">بدء الاتصال، تسليم البيانات، كشف الأخطاء وإعادة الإرسال.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>3. Network</strong></td>
+<td style="text-align:left"><strong>IP (Internet)</strong></td>
+<td style="text-align:left"><code>IP</code></td>
+<td style="text-align:left"><code>Router</code></td>
+<td style="text-align:left">العنونة المنطقية وتوجيه الحزم عبر الشبكات.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>2. Data Link</strong></td>
+<td style="text-align:left"><strong>Link</strong></td>
+<td style="text-align:left"><code>Ethernet</code>, <code>PPP</code>, <code>ATM</code></td>
+<td style="text-align:left"><code>Switches</code></td>
+<td style="text-align:left">نقل البيانات بين جهازين متصلين، كشف الأخطاء، والتحكم بالتدفق.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>1. Physical</strong></td>
+<td style="text-align:left"><strong>Link</strong></td>
+<td style="text-align:left"><code>Ethernet (physical)</code>, <code>Cable</code>, <code>Optical</code></td>
+<td style="text-align:left"><code>Repeater</code>, <code>Hub</code></td>
+<td style="text-align:left">نقل البيانات على شكل بتات (<strong>Bits</strong>) عبر وسط الاتصال.</td>
+</tr>
+</tbody>
+</table></div></article><article class="topic" id="s2"><h2><i>②</i>شبكات الإيثرنت (Ethernet LAN - IEEE 802.3)</h2><ul>
+<li>تنقسم طبقة الربط في معيار <strong>IEEE 802</strong> إلى قسمين فرعيين:
+<ul>
+<li><strong>MAC (Medium Access Control - IEEE 802.3):</strong> مسؤولة عن التحكم بالوصول للوسط والعنونة الفيزيائية.</li>
+<li><strong>LLC (Logical Link Control - IEEE 802.2):</strong> مسؤولة عن التحكم المنطقي بالربط مع الطبقة الأعلى.</li>
+</ul>
+</li>
+<li><strong>معايير الطبقة الفيزيائية للإيثرنت (Ethernet Physical Layer Standards):</strong></li>
+</ul>
+<div class="tw"><table>
+<thead>
+<tr>
+<th style="text-align:left">اسم المعيار (Name)</th>
+<th style="text-align:left">معيار IEEE</th>
+<th style="text-align:left">السرعة (Speed)</th>
+<th style="text-align:left">نوع الوسط (Media)</th>
+<th style="text-align:left">أقصى مسافة (Max Distance)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>10BASE-T</strong></td>
+<td style="text-align:left"><code>802.3</code> (Ethernet)</td>
+<td style="text-align:left"><code>10 Mbps</code></td>
+<td style="text-align:left">كبل نحاسي مجدول <code>Twisted pair (copper)</code></td>
+<td style="text-align:left"><code>100 m</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>100BASE-T</strong></td>
+<td style="text-align:left"><code>802.3u</code> (FastEthernet)</td>
+<td style="text-align:left"><code>100 Mbps</code></td>
+<td style="text-align:left">كبل نحاسي مجدول <code>Twisted pair (copper)</code></td>
+<td style="text-align:left"><code>100 m</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>1000BASE-T</strong></td>
+<td style="text-align:left"><code>802.3ab</code> (GigaEthernet)</td>
+<td style="text-align:left"><code>1000 Mbps</code></td>
+<td style="text-align:left">كبل نحاسي مجدول <code>Twisted pair (copper)</code></td>
+<td style="text-align:left"><code>100 m</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>1000BASE-LX</strong></td>
+<td style="text-align:left"><code>802.3z</code> (GigaEthernet)</td>
+<td style="text-align:left"><code>1000 Mbps</code></td>
+<td style="text-align:left">ألياف ضوئية <code>Long wavelength (single-mode fiber)</code></td>
+<td style="text-align:left"><code>5 km</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>10GBASE-T</strong></td>
+<td style="text-align:left"><code>802.3an</code> (10 Gigabit Ethernet)</td>
+<td style="text-align:left"><code>10 Gbps</code></td>
+<td style="text-align:left">كبل نحاسي مجدول <code>Twisted pair (copper)</code></td>
+<td style="text-align:left"><code>100 m</code></td>
+</tr>
+</tbody>
+</table></div></article><article class="topic" id="s3"><h2><i>③</i>أنماط الوصول للوسط (Half Duplex vs. Full Duplex)</h2><ul>
+<li><strong>نمط Half Duplex:</strong>
+<ul>
+<li>يتشارك الجهازان نفس قناة الإرسال والاستقبال (مثل <strong>Hub</strong> و <strong>Ethernet Bus</strong>)، ويشكلان <strong>Collision Domain</strong> واحدة.</li>
+<li>يعتمد على خوارزمية <strong>CSMA/CD (Carrier Sense Multiple Access with Collision Detection)</strong>: يتحسس الجهاز الوسط قبل الإرسال، وإذا أرسل جهازان معاً يحدث تصادم (<strong>Collision</strong>)، فترسل الأجهزة إشارة <strong>Jam</strong> وتتوقف عن الإرسال لفترة تأخير عشوائية تسمى <strong>Backoff Time</strong>.</li>
+</ul>
+</li>
+<li><strong>نمط Full Duplex:</strong>
+<ul>
+<li>يخصص قناة مستقلة للإرسال وأخرى للاستقبال لكل منفذ (مثل <strong>Switch</strong>).</li>
+<li>يسمح بالإرسال والاستقبال في نفس اللحظة، ويسمى <strong>Collision-Free</strong> ولا يحتاج إلى <strong>CSMA/CD</strong>.</li>
+</ul>
+</li>
+</ul></article><article class="topic" id="s4"><h2><i>④</i>بنية فريم الإيثرنت (Ethernet Frame) وعناوين MAC</h2><ul>
+<li><strong>حقول Ethernet Frame:</strong>
+<ol>
+<li><strong>Preamble:</strong> للمزامنة بين المرسل والمستقبل.</li>
+<li><strong>Start Frame Delimiter (SFD):</strong> يشير لبداية الفريم وقيمته دائماً <code>10101011</code>.</li>
+<li><strong>Destination Address:</strong> عنوان <code>MAC</code> للجهاز الهدف.</li>
+<li><strong>Source Address:</strong> عنوان <code>MAC</code> للجهاز المرسل.</li>
+<li><strong>Length / Type:</strong> يحدد نوع بروتوكول الطبقة الثالثة؛ القيمة <code>0800</code> تشير إلى <strong>IPv4</strong>، والقيمة <code>08DD</code> تشير إلى <strong>IPv6</strong>.</li>
+<li><strong>MAC Client Data and Pad:</strong> يحمل الحزمة المغلفة (مثل <code>IP Packet</code>)؛ <strong>أقل طول للفريم هو <code>64 bytes</code></strong>، وأعظم طول للحمولة يعتمد على نوع الفريم:
+<ul>
+<li><code>1500 bytes</code> للفريمات الأساسية.</li>
+<li><code>1504 bytes</code> للفريمات الموسومة <strong>Q-tagged (802.1Q)</strong>.</li>
+<li><code>1982 bytes</code> للفريمات المغلفة.</li>
+</ul>
+</li>
+<li><strong>Frame Check Sequence (FCS) / Ethernet Trailer:</strong> يستخدمه المستقبل لكشف الأخطاء أثناء النقل.</li>
+</ol>
+</li>
+<li><strong>خصائص وأنواع عناوين MAC (أو EUI):</strong>
+<ul>
+<li>طوله <strong>48 بت</strong> (6 بايت) يُكتب بالنظام الست عشري بطريقتين: صيغة IEEE (<code>01-23-45-67-89-ab</code>) أو صيغة Cisco (<code>0123.4567.89ab</code>).</li>
+<li>ينقسم عنوان <strong>Unicast MAC</strong> إلى: <strong>أول 24 بت (<code>OUI</code>)</strong> لمعرف الشركة المصنعة، و<strong>ثاني 24 بت</strong> تعينها الشركة المصنعة للكرت.</li>
+<li><strong>أنواع عناوين MAC الثلاثة:</strong>
+<ul>
+<li><strong>Unicast:</strong> يخص كرت شبكة لجهاز واحد محدد.</li>
+<li><strong>Broadcast:</strong> قيمته <code>FFFF.FFFF.FFFF</code> ويُرسل إلى جميع الأجهزة في نفس الـ Subnet.</li>
+<li><strong>Multicast:</strong> يُرسل إلى مجموعة محددة من الأجهزة.</li>
+</ul>
+</li>
+<li><strong>أوامر إيجاد عنوان MAC:</strong> في نظام Windows نستخدم التعليمة <code>ipconfig /all</code>، وفي نظام Kali Linux نستخدم التعليمة <code>ifconfig</code> (يظهر بجانب حقل <code>ether</code>).</li>
+</ul>
+</li>
+</ul></article><article class="topic" id="s5"><h2><i>⑤</i>آلية عمل السويتش (LAN Switch Operation)</h2><ul>
+<li><strong>جدول العناوين (MAC Address Table):</strong> يربط عنوان <code>MAC</code> لكل جهاز برقم المنفذ (<strong>Port</strong>) المتصل به على السويتش.</li>
+<li><strong>التعلم التلقائي (Dynamic MAC Address Learning):</strong> عندما يستقبل السويتش فريماً من منفذ ما، يقرأ <strong>Source MAC Address</strong> ويسجله في جدول الـ MAC مع رقم المنفذ القادم منه.</li>
+<li><strong>الفيضان (Flooding):</strong> إذا لم يجد السويتش الـ <strong>Destination MAC</strong> في جدوله (أو كان الفريم <strong>Broadcast</strong>)، يرسل الفريم إلى <strong>جميع المنافذ ما عدا المنفذ الذي أتى منه</strong>.</li>
+<li><strong>مجال البث (Ethernet Broadcast Domain / Subnet):</strong> جميع الأجهزة المتصلة بسويتش واحد (أو عدة سويتشات متصلة ببعضها بدون VLANs) تقع في <strong>Broadcast Domain واحد</strong>، ولا يعزل مجالات الـ Broadcast إلا جهاز من الطبقة الثالثة (<strong>Router</strong>).</li>
+</ul></article><div class="foot">سلسلة مراجعة موحدة — ملخص المحاضرة الثانية</div></div>
+</body>
+</html>
